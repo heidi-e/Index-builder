@@ -30,9 +30,6 @@ class AVLTreeIndex(BinarySearchTreeIndex):
         Returns:
         - int: The height of the AVLNode. If the node is None, returns 0.
         """
-        
-        # TODO: make sure to update height appropriately in the
-        # recursive insert function.
 
         if not node:
             return 0
@@ -40,18 +37,17 @@ class AVLTreeIndex(BinarySearchTreeIndex):
         return node.height
     
 
+    #This function is extremely important for the recursive portion of this indexer
     def _update_node_height(self, node: Optional[AVLNode]) -> None:
-
-        if not node:
-            return 0
         
-        #Indicating the height
-        height = node.height
+        #Indicating the height and then updating it after finding out the note exists. If it does not, nothing gets
+        #updated
+        if node:
+            node.height = max(self._height(node.left), self._height(node.right)) + 1
 
-        #Updating height
-        height = max(self._height(self._height(node.left), self._height(node.right))) + 1
-
-        return height
+        #No value gets updated
+        else: 
+            pass
 
     def _rotate_right(self, y: AVLNode) -> AVLNode:
         """
@@ -71,7 +67,7 @@ class AVLTreeIndex(BinarySearchTreeIndex):
 
         #Rotating to make y a right child of x and the rest of the attached portion of the other branch a left child
         x.right = y
-        x.left = other_section_right
+        y.left = other_section_right
         
         #Updating heights
         #Passed-in node
@@ -118,14 +114,44 @@ class AVLTreeIndex(BinarySearchTreeIndex):
         Returns:
             AVLNode: The updated AVL tree with the new node inserted.
         """
-        # TODO: Implement a proper recursive insert function for an
-        # AVL tree including updating height and balancing if a
-        # new node is inserted. 
+
+        #Same recursive application as the one used for the binary search tree
+        if not current:
+            node = AVLNode(key)
+            node.add_value(value)
+            return node
+        elif key < current.key:
+            current.left = self._insert_recursive(current.left, key, value)
+        elif key > current.key:
+            current.right = self._insert_recursive(current.right, key, value)
+        elif key == current.key:
+            current.add_value(value)
+            return current
+    
+        #Begin by modifying the height and then obtain the balance factor (which is -1, 0, or 1)
+        self._update_node_height(current)
+        #Balance factor equation: bal_fac = height of left branch - height of right branch
+        bal_fac = self._height(current.left) - self._height(current.right)
+
+        #Balancing of the tree
+        #Case 1: Left-Left (LL) Case
+        if bal_fac > 1 and key < current.left.key:
+            return self._rotate_right(current)
+
+        #Case 2: Right-Right (RR) Case
+        if bal_fac < -1 and key > current.right.key:
+            return self._rotate_left(current)
+
+        #Case 3: Left-Right (LR) Case
+        if bal_fac > 1 and key > current.left.key:
+            current.left = self._rotate_left(current.left)
+            return self._rotate_right(current)
+
+        #Case 4: Right-Left (RL) Case
+        if bal_fac < -1 and key < current.right.key:
+            current.right = self._rotate_right(current.right)
+            return self._rotate_left(current)
         
-        # TODO: Remove or comment out this line once you've implemented
-        # the AVL insert functionality 
-        current = super()._insert_recursive(current, key, value)
- 
         return current
 
     def insert(self, key: Any, value: Any) -> None:
