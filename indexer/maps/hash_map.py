@@ -7,10 +7,24 @@ class HashMapIndex(AbstractIndex):
         self.hash_map = {}
 
     def add(self, term, document_id):
-        pass
+        """
+        Add a document ID to the set of document IDs associated with a term
+        """ 
+        if term not in self.hash_map:
+            self.hash_map[term] = set()
+        self.hash_map[term].add(document_id)
 
     def search(self, term):
-        pass
+        """
+        Search for the set of document IDs associated with a term
+        """ 
+        return self.hash_map.get(term, set())
 
     def remove(self, term):
-        pass
+        """
+        Remove a term and its associated document IDs from the hashmap
+        """ 
+        if term in self.hash_map:
+            del self.hash_map[term]
+
+
