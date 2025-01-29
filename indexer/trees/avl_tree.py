@@ -38,6 +38,20 @@ class AVLTreeIndex(BinarySearchTreeIndex):
             return 0
     
         return node.height
+    
+
+    def _update_node_height(self, node: Optional[AVLNode]) -> None:
+
+        if not node:
+            return 0
+        
+        #Indicating the height
+        height = node.height
+
+        #Updating height
+        height = max(height(self._height(node.left), self._height(node.right))) + 1
+
+        return height
 
     def _rotate_right(self, y: AVLNode) -> AVLNode:
         """
@@ -52,18 +66,20 @@ class AVLTreeIndex(BinarySearchTreeIndex):
         
         # TODO: implement the right rotation for AVL Tree
 
-        #
+        #Node to modify (will access its inner values)
         x = y.left 
 
+        #Subtree present in the shift 
         other_section_right = x.right 
 
-
-
+        #Rotating to make y a right child of x and the rest of the attached portion of the other branch a left child
+        x.right = y
+        x.left = other_section_right
 
 
         
 
-        return 
+        return x
 
     def _rotate_left(self, x: AVLNode) -> AVLNode:
         """
@@ -78,10 +94,10 @@ class AVLTreeIndex(BinarySearchTreeIndex):
 
         y = x.right
 
+        #Subtree present in the shift
         other_section_left = y.left
-
         
-        pass
+        return y
 
     def _insert_recursive(self, current: Optional[AVLNode], key: Any, value: Any) -> AVLNode:
         """
