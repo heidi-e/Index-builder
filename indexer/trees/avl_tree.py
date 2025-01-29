@@ -63,9 +63,6 @@ class AVLTreeIndex(BinarySearchTreeIndex):
         Returns:
             AVLNode: The new root of the rotated subtree.
         """
-        
-        # TODO: implement the right rotation for AVL Tree
-
         #Node to modify (will access its inner values)
         x = y.left 
 
@@ -92,9 +89,6 @@ class AVLTreeIndex(BinarySearchTreeIndex):
         Returns:
             AVLNode: The new root of the subtree after rotation.
         """
-        
-        # TODO: implement the left rotation for AVL Tree
-
         #Node to modify (will access its inner values)
         y = x.right
 
