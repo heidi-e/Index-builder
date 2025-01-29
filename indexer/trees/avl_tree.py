@@ -49,7 +49,7 @@ class AVLTreeIndex(BinarySearchTreeIndex):
         height = node.height
 
         #Updating height
-        height = max(height(self._height(node.left), self._height(node.right))) + 1
+        height = max(self._height(self._height(node.left), self._height(node.right))) + 1
 
         return height
 
