@@ -64,6 +64,7 @@ def main():
     avl_tree = AVLTreeIndex()
     list = ListIndex()
     hash_map = HashMapIndex()
+    binary_tree = BinarySearchTreeIndex()
 
     file_path = 'indexer/util/test.json'
     file_name = 'test.json'
