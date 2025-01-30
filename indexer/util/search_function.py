@@ -1,6 +1,11 @@
 import json
 from urllib.parse import urlparse
 import re
+from indexer.maps.hash_map import HashMapIndex
+from indexer.trees.avl_tree import AVLTreeIndex
+from indexer.lists.list_index import ListIndex
+from indexer.trees.bst_index import BinarySearchTreeIndex
+import os
 
 
 def extract_article_data(file_path):
@@ -14,13 +19,14 @@ def extract_article_data(file_path):
     source_url = article.get('url', '')
     author = article.get('author', '')
 
-    # Take the domain from the source URL
+    # Take the domain from the source URL (www.google/words/morewords.com changed to www.google.com)
     domain = urlparse(source_url).netloc
 
     # Converts preprocessed text
     preprocessed_text = ' '.join(article.get('preprocessed_text', []))
 
     return title, domain, author, preprocessed_text
+
 
 def process_article(index_structure, file_path, filename):
     """
@@ -36,8 +42,45 @@ def process_article(index_structure, file_path, filename):
 
     # Add words to the index with the filename
     for word in words:
-        index_structure.add(word, filename)
+        index_structure.insert(word, filename)
 
+
+def crawl_and_index(index, folder_path):
+    """
+    Crawl through folders of news articles and index them.
+    """
+    print("Starting crawl and index...")
+    for root, dirs, files in os.walk(folder_path):
+        for file in files:
+            if file.endswith('.json'): 
+                file_path = os.path.join(root, file)
+                print(f"Processing file: {file_path}")
+                process_article(index, file_path, file)
+
+def main():
+
+
+    # Usage Example
+    avl_tree = AVLTreeIndex()
+    list = ListIndex()
+    hash_map = HashMapIndex()
+
+    file_path = 'indexer/util/test.json'
+    file_name = 'test.json'
+    folder_path = 'indexer/util'
+
+    # process_article(avl_tree, file_path)
+    # process_article(list, file_path)
+    # process_article(hash_map, file_path, file_name) 
+    crawl_and_index(hash_map, folder_path)
+
+    # Print the contents of the hash_map to verify
+    print("HashMap Index Contents:")
+    for term, document_ids in hash_map.hash_map.items():
+        print(f"Term: {term}, Document IDs: {document_ids}")
+              
+if __name__ == '__main__':
+    main()
 
 
 
