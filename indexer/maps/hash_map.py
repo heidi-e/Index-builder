@@ -35,6 +35,6 @@ class HashMapIndex(AbstractIndex):
 
     def insert(self, term, document_id):
         """
-        Alias for add method
+        Alias for add method (test function needed it)
         """ 
         self.add(term, document_id)
