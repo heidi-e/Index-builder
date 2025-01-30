@@ -27,7 +27,7 @@ class ListIndex(AbstractIndex):
 
     def __init__(self):
         super().__init__()
-        self.list_index = []  # List to store (key, values_list) pairs
+        self.list_index = []  
 
 
     def insert(self, key: Any, value: Any) -> None:
