@@ -38,6 +38,7 @@ class ListIndex(AbstractIndex):
         Returns: None
         """
 
+        # entry is key-value pair
         for entry in self.list_index:
             if entry[0] == key:
                 entry[1].append(value)
@@ -50,6 +51,7 @@ class ListIndex(AbstractIndex):
         Searches for values associated with the given key.
         Returns a list of values, or an empty list if the key is not found.
         """
+        # parse through list to see if key matches entry in list
         for entry in self.list_index:
             if entry[0] == key:
                 return entry[1]
@@ -65,7 +67,7 @@ class ListIndex(AbstractIndex):
         """
         Returns the number of unique keys in the index.
         """
-        return len(self.index)
+        return len(self.list_index)
 
     def get_avg_value_list_len(self) -> float:
         """
@@ -76,6 +78,6 @@ class ListIndex(AbstractIndex):
         if not self.list_index:
             return 0.0
 
-        total_values = sum(len(entry[1]) for entry in self.index)
+        total_values = sum(len(entry[1]) for entry in self.list_index)
 
         return total_values / len(self.index)
