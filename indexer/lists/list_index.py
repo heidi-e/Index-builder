@@ -56,13 +56,15 @@ class ListIndex(AbstractIndex):
         for entry in self.list_index:
             if entry[0] == key:
                 return entry[1]
+            else:
+                raise KeyError(f"Key {entry[0]} not found in the list.")
         return []
 
     def get_keys_in_order(self) -> List[Any]:
         """
         Returns a list of all keys in the index in ascending order.
         """
-        return [entry[0] for entry in self.list_index]
+        return sorted([entry[0] for entry in self.list_index])
 
     def count_keys(self) -> int:
         """
@@ -82,3 +84,7 @@ class ListIndex(AbstractIndex):
         total_values = sum(len(entry[1]) for entry in self.list_index)
 
         return total_values / len(self.index)
+
+    def __iter__(self):
+        # This makes ListIndex iterable (can be looped over in a for loop)
+        return iter(self.list_index)

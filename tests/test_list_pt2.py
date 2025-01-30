@@ -1,9 +1,9 @@
 """
-This module contains unit tests for the ListIndex class.
+This module contains unit tests for the BinarySearchTreeIndex class.
 
-The ListIndex class is responsible for implementing a listing index for a search engine.
+The BinarySearchTreeIndex class is responsible for implementing a binary search tree index for a search engine.
 The following tests are included:
-- `test_insert_and_search`: Tests the `insert` and `search` methods of the ListIndex class.
+- `test_insert_and_search`: Tests the `insert` and `search` methods of the BinarySearchTreeIndex class.
 - `test_insert_duplicate_keys`: Tests the behavior of inserting duplicate keys into the BinarySearchTreeIndex class.
 - `test_search_non_existent_key`: Tests the behavior of searching for a non-existent key in the BinarySearchTreeIndex class.
 - `test_count_nodes`: Tests the `count_nodes` method of the BinarySearchTreeIndex class.
@@ -13,8 +13,7 @@ The following tests are included:
 """
 
 import pytest
-from list_index import ListIndex
-#from indexer.lists.list_index import ListIndex
+from indexer.lists.list_index import ListIndex
 
 
 @pytest.fixture
@@ -33,51 +32,26 @@ def test_insert_and_search(lst):
 
 
 def test_insert_duplicate_keys(lst):
-    bst.insert('a', 1)
-    bst.insert('a', 2)
-    bst.insert('a', 3)
+    lst.insert('a', 1)
+    lst.insert('a', 2)
+    lst.insert('a', 3)
 
-    assert bst.search('a') == [1, 2, 3]
+    assert lst.search('a') == [1, 2, 3]
 
 
 def test_search_non_existent_key(lst):
-    bst.insert('a', 1)
+    lst.insert('a', 1)
 
     with pytest.raises(KeyError):
-        bst.search('b')
-
-
-def test_count_nodes(lst):
-    bst.insert('a', 1)
-    bst.insert('b', 2)
-    bst.insert('c', 3)
-
-    assert bst.count_nodes() == 3
-
-
-def test_tree_height(bst):
-    bst.insert('a', 1)
-    bst.insert('b', 2)
-    bst.insert('c', 3)
-
-    assert bst.tree_height() == 3
+        lst.search('b')
 
 
 def test_get_keys_in_order(lst):
-    bst.insert('b', 2)
-    bst.insert('a', 1)
-    bst.insert('c', 3)
+    lst.insert('b', 2)
+    lst.insert('a', 1)
+    lst.insert('c', 3)
 
-    assert bst.get_keys_in_order() == ['a', 'b', 'c']
-
-
-def test_get_leaf_keys(lst):
-    bst.insert('b', 2)
-    bst.insert('a', 1)
-    bst.insert('c', 3)
-
-    assert bst.get_leaf_keys() == ['a', 'c']
-
+    assert lst.get_keys_in_order() == ['a', 'b', 'c']
 
 if __name__ == "__main__":
     pytest.main()
