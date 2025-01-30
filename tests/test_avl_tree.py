@@ -1,3 +1,5 @@
+'''
+
 from indexer.maps.AVL import HashMapIndex 
 
 def test_hash_map_index():
@@ -23,3 +25,8 @@ def test_hash_map_index():
 
 if __name__ == "__main__":
     test_hash_map_index()
+
+
+
+
+'''
