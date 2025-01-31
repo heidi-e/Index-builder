@@ -7,7 +7,7 @@ from indexer.lists.list_index import ListIndex
 from indexer.trees.bst_index import BinarySearchTreeIndex
 import os
 import pickle
-from timer import timer
+from indexer.util.timer import timer
 
 
 def extract_article_data(file_path):
@@ -47,7 +47,7 @@ def process_article(index_structure, file_path, filename):
         index_structure.insert(word, filename)
 
 
-def crawl_and_index(index, folder_path):
+def crawl_and_index(index, folder_path, save_path):
     """
     Crawl through folders of news articles and index them.
     """
@@ -58,6 +58,9 @@ def crawl_and_index(index, folder_path):
                 file_path = os.path.join(root, file)
                 print(f"Processing file: {file_path}")
                 process_article(index, file_path, file)
+            
+    save_index(index, save_path)
+
 
 def save_index(index, file_path):
     """
@@ -78,45 +81,43 @@ def load_index(file_path):
     return index
 
 @timer
-def search_hash_map(index, query):
-    return index.search(query)
+def search_hash_map(index, word):
+    return index.search(word)
 
 @timer
-def search_avl_tree(index, query):
-    return index.search(query)
+def search_avl_tree(index, word):
+    return index.search(word)
 
 @timer
-def search_list(index, query):
-    return index.search(query)
+def search_list(index, word):
+    return index.search(word)
 
 @timer
-def search_bst(index, query):
-    return index.search(query)
+def search_bst(index, word):
+    return index.search(word)
 
 
 
 def main():
 
-
     # Usage Example
     avl_tree = AVLTreeIndex()
-    list = ListIndex()
+    list_index = ListIndex()
     hash_map = HashMapIndex()
-    binary_tree = BinarySearchTreeIndex()
+    bst_index = BinarySearchTreeIndex()
 
     file_path = 'indexer/util/test.json'
     file_name = 'test.json'
     folder_path = 'indexer/util'
 
-    # process_article(avl_tree, file_path)
-    # process_article(list, file_path)
-    # process_article(hash_map, file_path, file_name) 
     crawl_and_index(hash_map, folder_path)
 
-    # Print the contents of the hash_map to verify
-    print("HashMap Index Contents:")
-    for term, document_ids in hash_map.hash_map.items():
-        print(f"Term: {term}, Document IDs: {document_ids}")
+    word = "hello"
+    
+    # search_hash_map(hash_map, word)
+    # search_avl_tree(avl_tree, word)
+    # search_list(list_index, word)
+    # search_bst(bst_index, word)
               
 if __name__ == '__main__':
     main()
