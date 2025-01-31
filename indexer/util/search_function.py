@@ -8,6 +8,7 @@ from indexer.trees.bst_index import BinarySearchTreeIndex
 import os
 import pickle
 from indexer.util.timer import timer
+import argparse
 
 
 def extract_article_data(file_path):
@@ -46,7 +47,7 @@ def process_article(index_structure, file_path, filename):
     for word in words:
         index_structure.insert(word, filename)
 
-
+@timer
 def index_files(index, folder_path, save_path):
     """
     Crawl through folders of news articles and index them.
@@ -99,16 +100,29 @@ def search_bst(index, word):
 
 
 def main():
-    
+
+    # use command line to input specific directories for dataset input and output
+    parser = argparse.ArgumentParser(description="Indexing program for news articles.")
+    # Dataset path argument (required)
+    parser.add_argument("-d", "--dataset", required=True, help="Path to the dataset root folder.")
+    # Set path to save pickled index
+    parser.add_argument("-p", "--pickle", required=True, help="Path to save or load the index using pickle.")
+
+    args = parser.parse_args()
+
+    # set desired indexing structure
     avl_tree = AVLTreeIndex()
-    list_index = ListIndex()
-    hash_map = HashMapIndex()
-    bst_index = BinarySearchTreeIndex()
+    #list_index = ListIndex()
+    #hash_map = HashMapIndex()
+    #bst_index = BinarySearchTreeIndex()
 
-    save_path = 'path/to/wanted/save/folder'
-    folder_path = 'path/to/current/location/of/dataset/folder'
+    # extract, parse, index metadata into pickled index
+    index_files(avl_tree, args.dataset, args.pickle)
 
-    index_files(hash_map, folder_path, save_path)  
-              
+    # test by loading and printing pickled data
+    #index = load_index(args.pickle)
+    #keys = index.get_keys_in_order()[:5]
+    #print(keys)
+
 if __name__ == '__main__':
     main()
