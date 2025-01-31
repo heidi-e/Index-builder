@@ -81,23 +81,6 @@ def load_index(file_path):
     print(f"Index loaded from {file_path}")
     return index
 
-@timer
-def search_hash_map(index, word):
-    return index.search(word)
-
-@timer
-def search_avl_tree(index, word):
-    return index.search(word)
-
-@timer
-def search_list(index, word):
-    return index.search(word)
-
-@timer
-def search_bst(index, word):
-    return index.search(word)
-
-
 
 def main():
 
