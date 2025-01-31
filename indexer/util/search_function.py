@@ -6,6 +6,8 @@ from indexer.trees.avl_tree import AVLTreeIndex
 from indexer.lists.list_index import ListIndex
 from indexer.trees.bst_index import BinarySearchTreeIndex
 import os
+import pickle
+from timer import timer
 
 
 def extract_article_data(file_path):
@@ -57,6 +59,42 @@ def crawl_and_index(index, folder_path):
                 print(f"Processing file: {file_path}")
                 process_article(index, file_path, file)
 
+def save_index(index, file_path):
+    """
+    Save the index to a pickle file.
+    """
+    with open(file_path, 'wb') as f:
+        pickle.dump(index, f)
+    print(f"Index saved to {file_path}")
+
+
+def load_index(file_path):
+    """
+    Load the index from a pickle file.
+    """
+    with open(file_path, 'rb') as f:
+        index = pickle.load(f)
+    print(f"Index loaded from {file_path}")
+    return index
+
+@timer
+def search_hash_map(index, query):
+    return index.search(query)
+
+@timer
+def search_avl_tree(index, query):
+    return index.search(query)
+
+@timer
+def search_list(index, query):
+    return index.search(query)
+
+@timer
+def search_bst(index, query):
+    return index.search(query)
+
+
+
 def main():
 
 
@@ -82,42 +120,3 @@ def main():
               
 if __name__ == '__main__':
     main()
-
-
-
-
-
-# def crawl_data(index_struct, file_path):
-#     """
-#     Crawl folders of news articles and extract metadata
-#     Args:
-#         index_struct: index structure you are testing
-#         file_path: path to the folder containing the dataset
-
-#     Returns:
-
-#     """
-
-#     # Load the JSON file
-#     with open(file_path, "r") as f:
-#         data = json.load(f)
-
-#     for file in data:
-
-#         # Extract relevant fields
-#         title = file["title"]
-#         url = file['url']
-#         if file['author'] != "":
-#             author = file['author'].split('')[1]
-
-#         # Extract preprocessed text
-#         raw_preprocessed_text = file["preprocessed_text"]
-
-#         # store into indexing structure
-#         for word in raw_preprocessed_text:
-#             index_struct.insert(word, file)
-#             index_struct.insert(word, title)
-#             index_struct.insert(word, url)
-#             index_struct.insert(word, author)
-
-
