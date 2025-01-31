@@ -47,7 +47,7 @@ def process_article(index_structure, file_path, filename):
     for word in words:
         index_structure.insert(word, filename)
 
-
+@timer
 def index_files(index, folder_path, save_path):
     """
     Crawl through folders of news articles and index them.
@@ -81,28 +81,48 @@ def load_index(file_path):
     print(f"Index loaded from {file_path}")
     return index
 
+@timer
+def search_hash_map(index, word):
+    return index.search(word)
+
+@timer
+def search_avl_tree(index, word):
+    return index.search(word)
+
+@timer
+def search_list(index, word):
+    return index.search(word)
+
+@timer
+def search_bst(index, word):
+    return index.search(word)
+
+
 
 def main():
 
-    parser = argparse.ArgumentParser(description='Index news articles and save to a pickle file.')
-    parser.add_argument('-d', '--dataset', required=True, help='Path to the root folder of the dataset.')
-    parser.add_argument('-p', '--pickle', required=True, help='Path to the pickle file.')
+    # use command line to input specific directories for dataset input and output
+    parser = argparse.ArgumentParser(description="Indexing program for news articles.")
+    # Dataset path argument (required)
+    parser.add_argument("-d", "--dataset", required=True, help="Path to the dataset root folder.")
+    # Set path to save pickled index
+    parser.add_argument("-p", "--pickle", required=True, help="Path to save or load the index using pickle.")
+
     args = parser.parse_args()
 
+    # set desired indexing structure
     avl_tree = AVLTreeIndex()
-    list_index = ListIndex()
-    hash_map = HashMapIndex()
-    bst_index = BinarySearchTreeIndex()
+    #list_index = ListIndex()
+    #hash_map = HashMapIndex()
+    #bst_index = BinarySearchTreeIndex()
 
-    folder_path = args.dataset
-    save_path = args.pickle
+    # extract, parse, index metadata into pickled index
+    index_files(avl_tree, args.dataset, args.pickle)
 
-    if os.path.exists(save_path):
-        hash_map = load_index(save_path)
-    else:
-        index_files(hash_map, folder_path, save_path)
-        print("it works!")
-    
-              
+    # test by loading and printing pickled data
+    #index = load_index(args.pickle)
+    #keys = index.get_keys_in_order()[:5]
+    #print(keys)
+
 if __name__ == '__main__':
     main()
