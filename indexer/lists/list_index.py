@@ -53,12 +53,18 @@ class ListIndex(AbstractIndex):
         Returns a list of values, or an empty list if the key is not found.
         """
         # parse through list to see if key matches entry in list
+        values = []
         for entry in self.list_index:
             if entry[0] == key:
-                return entry[1]
-            else:
-                raise KeyError(f"Key {entry[0]} not found in the list.")
-        return []
+                values.extend(entry[1])
+
+        # if key does not exist in list, flag an error
+        if not values:
+            raise KeyError(f"Key {key} not found in the list.")
+
+
+        return values
+
 
     def get_keys_in_order(self) -> List[Any]:
         """
