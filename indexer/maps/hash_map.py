@@ -38,3 +38,8 @@ class HashMapIndex(AbstractIndex):
         Alias for add method (test function needed it)
         """ 
         self.add(term, document_id)
+
+
+    def get_keys_in_order(self):
+        # Return a list of all keys 
+        return list(self.hash_map.keys())
