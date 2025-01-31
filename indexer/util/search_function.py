@@ -47,7 +47,7 @@ def process_article(index_structure, file_path, filename):
         index_structure.insert(word, filename)
 
 
-def crawl_and_index(index, folder_path, save_path):
+def index_files(index, folder_path, save_path):
     """
     Crawl through folders of news articles and index them.
     """
@@ -99,25 +99,16 @@ def search_bst(index, word):
 
 
 def main():
-
-    # Usage Example
+    
     avl_tree = AVLTreeIndex()
     list_index = ListIndex()
     hash_map = HashMapIndex()
     bst_index = BinarySearchTreeIndex()
 
-    file_path = 'indexer/util/test.json'
-    file_name = 'test.json'
-    folder_path = 'indexer/util'
+    save_path = 'path/to/wanted/save/folder'
+    folder_path = 'path/to/current/location/of/dataset/folder'
 
-    crawl_and_index(hash_map, folder_path)
-
-    word = "hello"
-    
-    # search_hash_map(hash_map, word)
-    # search_avl_tree(avl_tree, word)
-    # search_list(list_index, word)
-    # search_bst(bst_index, word)
+    index_files(hash_map, folder_path, save_path)  
               
 if __name__ == '__main__':
     main()

@@ -51,3 +51,11 @@ def create_search_data_set(index_struc, n: int, file_path):
     random.shuffle(combine_comps)
 
     return combine_comps
+
+
+def main():
+
+    # hello
+
+if __name__ == '__main__':
+    main()
