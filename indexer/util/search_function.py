@@ -8,6 +8,7 @@ from indexer.trees.bst_index import BinarySearchTreeIndex
 import os
 import pickle
 from indexer.util.timer import timer
+import argparse
 
 
 def extract_article_data(file_path):
@@ -99,16 +100,30 @@ def search_bst(index, word):
 
 
 def main():
-    
+
+    parser = argparse.ArgumentParser(description='Index news articles and save to a pickle file.')
+    parser.add_argument('-d', '--dataset', required=True, help='Path to the root folder of the dataset.')
+    parser.add_argument('-p', '--pickle', required=True, help='Path to the pickle file.')
+    args = parser.parse_args()
+
     avl_tree = AVLTreeIndex()
     list_index = ListIndex()
     hash_map = HashMapIndex()
     bst_index = BinarySearchTreeIndex()
 
-    save_path = 'path/to/wanted/save/folder'
-    folder_path = 'path/to/current/location/of/dataset/folder'
+    folder_path = args.dataset
+    save_path = args.pickle
 
-    index_files(hash_map, folder_path, save_path)  
+    # Option to load existing index
+    if os.path.exists(save_path):
+        hash_map = load_index(save_path)
+    else:
+        index_files(hash_map, folder_path, save_path)
+
+    # Print the contents of the hash_map to verify
+    print("HashMap Index Contents:")
+    for term, document_ids in hash_map.hash_map.items():
+        print(f"Term: {term}, Document IDs: {document_ids}")  
               
 if __name__ == '__main__':
     main()
