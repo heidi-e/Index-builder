@@ -114,16 +114,12 @@ def main():
     folder_path = args.dataset
     save_path = args.pickle
 
-    # Option to load existing index
     if os.path.exists(save_path):
         hash_map = load_index(save_path)
     else:
         index_files(hash_map, folder_path, save_path)
-
-    # Print the contents of the hash_map to verify
-    print("HashMap Index Contents:")
-    for term, document_ids in hash_map.hash_map.items():
-        print(f"Term: {term}, Document IDs: {document_ids}")  
+        print("it works!")
+    
               
 if __name__ == '__main__':
     main()
