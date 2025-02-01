@@ -78,22 +78,17 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
   - A 4th indexing data structure of your choice
 - You can modify the nodes of each of the data structures to include additional data if you'd like.
 
-- File storage/locations:
+- File Storage/Locations:
+  
 
-  - **DO NOT EVER PUT THE DATASET IN YOUR REPO.**
-  - Once you've fully implemented your indexing data structures and created a full index, you can store them in a pickle file for use in the experiments. This will save you from having to re-index the corpus every time you run an experiment. **Do NOT put the pickle files in your repo.**
-  - The path to the root folder of the dataset is currently a variable in `assign_01.py`. You should convert this to a command line argument that can be passed in when running the program.
-    - `-d` or `--dataset` for example.
-  - If you pickle your indexes, you can have a separate command line argument for the path to the pickle files.
-    - `-p` or `--pickle` for example.
+  - None of our datasets are in our repo for the sake of saving storage and time. Instead, we stored our indexed one in a pickle file for use in the experiments. 
+  - Our pickle files are also not in the repo for similar reason. The path to the root folder of the dataset is currently a variable in `assign_01.py`. You should convert this to a command line argument that can be passed in when running the program.
+    - For example: `-d` or `--dataset` 
+  - We also pickled our indexes, so we have  a separate command line argument for the path to the pickle files.
+    - For example: `-p` or `--pickle` 
 
-- The implementations of the data structures should be consistent with the explanations covered in lecture.
 
-- Each of the data structures should inherit from a common interface of functionality in `indexer.abstract_index.AbstractIndex`. Those for which I've provided a full or partial implementation already do.
-
-- Each data structure should conceptually manage an inverted index for the corpus (or a subset of it). In this case, the inverted index will map individual words (after they've been preprocessed) to a list of documents in which that word appears.
-
-- The time needed to construct the index should NOT be included in the searching timing data you collect.
+- Each of the data structures inherit from a common interface of functionality in `indexer.abstract_index.AbstractIndex`. 
 
 ### Python Environment
 
