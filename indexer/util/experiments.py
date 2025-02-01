@@ -1,3 +1,4 @@
+from indexer.abstract_index import AbstractIndex
 from indexer.maps.hash_map import HashMapIndex
 from indexer.trees.avl_tree import AVLTreeIndex
 from indexer.lists.list_index import ListIndex
@@ -10,15 +11,39 @@ import string
 def generate_random_string(length):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
+
+bst_index = BinarySearchTreeIndex()
+avl_index = AVLTreeIndex()
+hm_index = HashMapIndex()
+l_index = ListIndex()
+
+
 # E1: Search time for existing elements
 @timer
 def experiment_search_existing(index, n):
     search_times = []
     for i in range(n):
         term = f"term{i}"
-        _, search_time = index.search(term)
-        search_times.append(search_time)
+        values = index.search(term)
+        search_times.append(values)
     return search_times
+
+
+# Insert 100 keys first (so they exist before searching)
+for i in range(100):
+    bst_index.insert(f"term{i}", f"value{i}")
+
+# Now perform search experiments
+experiment_search_existing(bst_index, 100)
+experiment_search_existing(avl_index, 100)
+experiment_search_existing(hm_index, 100)
+experiment_search_existing(l_index, 100)
+
+
+
+
+
+
 
 # E2: Search time for existing elements
 @timer
@@ -26,9 +51,17 @@ def experiment_search_non_existing(index, n):
     search_times = []
     for i in range(n):
         term = f"non_existing_term{i}"
-        _, search_time = index.search(term)
+        search_time = index.search(term)
         search_times.append(search_time)
     return search_times
+
+# Now perform search experiments
+experiment_search_non_existing(bst_index, 100)
+experiment_search_non_existing(avl_index, 100)
+experiment_search_non_existing(hm_index, 100)
+experiment_search_non_existing(l_index, 100)
+
+
 
 
 
