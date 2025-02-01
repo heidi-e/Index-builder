@@ -65,15 +65,23 @@ def load_index(file_path):
 def main():
     # in command line: python -m indexer.util.search_data_set
 
-
-    #n = generate_n()
+    # generate random number n
+    n = generate_n()
 
     # test with 12 for now
-    n = 12
-    #hash_indexer = 'C:\\Users\\lilyh\\Downloads\\pickles\\pickles\\hash_index.pkl'
-    bst_index_data = '/Users/Heidi/Downloads/pickles/bst_index.pkl'
+    #n = 12
 
-    search_data_set = create_search_data_set(bst_index_data, n)
+
+    #hash_indexer = 'C:\\Users\\lilyh\\Downloads\\pickles\\pickles\\hash_index.pkl'
+
+    # specify directory with pickled indexing structure
+    #bst_index_data = '/Users/Heidi/Downloads/pickles/bst_index.pkl'
+    #lst_index_data = '/Users/Heidi/Downloads/pickles/list_index.pkl'
+    #hash_index_data = '/Users/Heidi/Downloads/pickles/hash_index.pkl'
+    avl_index_data = '/Users/Heidi/Downloads/pickles/avl_index.pkl'
+
+    # generate searching data set
+    search_data_set = create_search_data_set(avl_index_data, n)
 
     print(search_data_set)
 

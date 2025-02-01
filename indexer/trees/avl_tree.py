@@ -182,4 +182,4 @@ class AVLTreeIndex(BinarySearchTreeIndex):
     def get_keys_in_order(self) -> List[Any]:
         result = []
         self._inorder_traversal(self.root, result)
-        return 
+        return result
