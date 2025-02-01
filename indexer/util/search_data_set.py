@@ -4,8 +4,8 @@ import pickle
 from indexer.maps.hash_map import HashMapIndex
 
 def generate_n():
-    """Generates a random integer n that is at least 4000 and divisible by 4."""
-    return random.randrange(4000, 10000, 4)
+    """Generates a random integer n that is less than or equal to 4000 and divisible by 4."""
+    return random.randrange(4, 4000, 4)
 
 
 def multi_phrase(comp_letter, n):
