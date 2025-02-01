@@ -3,6 +3,23 @@
 ## Group: 
 Heidi Eren, Lily Hoffman, and Mihalis Koutouvos
 
+## Running Program: 
+### Python Environment
+
+- Our implementation runs with Python 3.11. To create a new conda environment with python 3.11, run the following:
+
+```bash
+conda create -n <new_env_name> python=3.11
+```
+
+Subsequently, install additional packages listed in the requirements.txt file with:
+
+```bash
+pip install -r requirements.txt
+```
+
+- The above steps should allow you to run the program successfully. 
+
 ## Assignment Overview: 
 
 ### Scenario (Hypothetical):
@@ -44,16 +61,6 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
    
 
 ## Implementation Details and Considerations
-
-- I have included a decorator in `indexer.util.timer` that tracks the execution time of a function in nanoseconds and milliseconds. You are free to use it directly or modify it for your needs. OR, you can implement your own timer function to track performance data in some other Pythonic way if you'd like.
-
-- You'll use the following data structures as indexes for this project:
-  - Binary Search Tree (already implemented for you, but you can modify it if you'd like)
-  - AVL Tree (started for you)
-  - Hash Table (custom implementation, primary functions stubbed out for you. Don't simply use a Python dictionary.)
-  - A 4th indexing data structure of your choice
-- You can modify the nodes of each of the data structures to include additional data if you'd like.
-
 - File Storage/Locations:
   
   - None of our datasets are in our repo for the sake of saving storage and time. Instead, we stored our indexed one in a pickle file for use in the experiments. 
@@ -63,17 +70,3 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
     - For example: `-p` or `--pickle` 
 
 - Each of the data structures inherit from a common interface of functionality in `indexer.abstract_index.AbstractIndex`. 
-
-### Python Environment
-
-- Our implementation runs with Python 3.11. To create a new conda environment with python 3.11, run the following:
-
-```bash
-conda create -n <new_env_name> python=3.11
-```
-
-Subsequently, install additional packages listed in the requirements.txt file with:
-
-```bash
-pip install -r requirements.txt
-```
