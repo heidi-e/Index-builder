@@ -3,6 +3,11 @@ import string
 import pickle
 from indexer.maps.hash_map import HashMapIndex
 
+def generate_n():
+    """Generates a random integer n that is at least 4000 and divisible by 4."""
+    return random.randrange(4000, 10000, 4)
+
+
 def multi_phrase(comp_letter, n):
     '''
     To create components with addition of (n/4) 2- and 3-word phrases
@@ -13,19 +18,18 @@ def multi_phrase(comp_letter, n):
     return [" ".join(random.sample(comp_letter, random.choice([2, 3]))) for _ in range(m)]
 
 
-def create_search_data_set(index_struc, n: int, file_path):
-    if n % 4 != 0 or n < 4000:
-        raise ValueError("n has to have a remainder of 4 and be at least 4000")
+def create_search_data_set(pickled_indexed_data, n: int):
+
+    indexed_data = load_index(pickled_indexed_data)
 
     # Component A
     # Randomly sample n terms currently in index
-    all_terms = index_struc.get_keys_in_order()
+    all_terms = indexed_data.get_keys_in_order()
 
-    index_struc.get_keys_in_order()
-
+    #print(indexed_data[:5])
     # Check if there are enough terms to sample from
-    if len(all_terms) < n:
-        raise ValueError("Sample size 'n' is larger than the number of unique terms in the index")
+    #if len(all_terms) < n:
+        #raise ValueError("Sample size 'n' is larger than the number of unique terms in the index")
     
     comp_A = random.sample(all_terms, n)
 
@@ -59,12 +63,17 @@ def load_index(file_path):
 
 
 def main():
-    # Generate a search data set with n = 4000 (as an example)
-    n = 4000   
-    hash_indexer = 'C:\\Users\\lilyh\\Downloads\\pickles\\pickles\\hash_index.pkl'
-    hash_map = HashMapIndex()
+    # in command line: python -m indexer.util.search_data_set
 
-    search_data_set = create_search_data_set(hash_map, n, hash_indexer)
+
+    #n = generate_n()
+
+    # test with 12 for now
+    n = 12
+    #hash_indexer = 'C:\\Users\\lilyh\\Downloads\\pickles\\pickles\\hash_index.pkl'
+    bst_index_data = '/Users/Heidi/Downloads/pickles/bst_index.pkl'
+
+    search_data_set = create_search_data_set(bst_index_data, n)
 
     print(search_data_set)
 
