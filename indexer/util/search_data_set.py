@@ -20,6 +20,7 @@ def multi_phrase(comp_letter, n):
 
 def create_search_data_set(pickled_indexed_data, n: int):
 
+    # load the pickled data
     indexed_data = load_index(pickled_indexed_data)
 
     # Component A
