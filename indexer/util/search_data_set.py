@@ -1,7 +1,6 @@
 import random
 import string
 import pickle
-from indexer.maps.hash_map import HashMapIndex
 
 def generate_n():
     """Generates a random integer n that is less than or equal to 4000 and divisible by 4."""
@@ -69,22 +68,26 @@ def main():
     # generate random number n
     n = generate_n()
 
-    # test with 12 for now
-    #n = 12
+    # specify indexing structure, type in as string
+    indexing_structure = 'bst_index'
+    #indexing_structure = 'hash_index'
+    #indexing_structure = 'avl_index'
+    #indexing_structure = 'list_index'
 
-
-    #hash_indexer = 'C:\\Users\\lilyh\\Downloads\\pickles\\pickles\\hash_index.pkl'
 
     # specify directory with pickled indexing structure
-    #bst_index_data = '/Users/Heidi/Downloads/pickles/bst_index.pkl'
-    #lst_index_data = '/Users/Heidi/Downloads/pickles/list_index.pkl'
-    #hash_index_data = '/Users/Heidi/Downloads/pickles/hash_index.pkl'
-    avl_index_data = '/Users/Heidi/Downloads/pickles/avl_index.pkl'
+    index_data = f'/Users/Heidi/Downloads/final_pickles/{indexing_structure}.pkl'
 
     # generate searching data set
-    search_data_set = create_search_data_set(avl_index_data, n)
+    search_data_set = create_search_data_set(index_data, n)
 
     print(search_data_set)
+
+    #index_data = 'index.pkl'
+
+    #index = load_index(avl_index_data)
+    #keys = index.get_keys_in_order()[:5]
+    #print(keys)
 
 if __name__ == '__main__':
     main()

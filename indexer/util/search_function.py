@@ -9,6 +9,8 @@ import os
 import pickle
 from indexer.util.timer import timer
 import argparse
+import time
+from indexer.util.parser_utils import preprocess_text
 
 
 def extract_article_data(file_path):
@@ -35,13 +37,17 @@ def process_article(index_structure, file_path, filename):
     """
     Process an article & store words in the indexing structure
     """
-    title, domain, author, preprocessed_text  = extract_article_data(file_path)
-    
+    title, domain, author, preprocessed_text = extract_article_data(file_path)
+
+    # clean up title
+    title = preprocess_text(f"{title}")
+
     # Combines text for indexing
     text_to_index = f"{title} {domain} {author} {preprocessed_text}"
-    
+
     # Tokenize text (split by whitespace & remove any punctuation)
     words = re.findall(r'\b\w+\b', text_to_index.lower())
+
 
     # Add words to the index with the filename
     for word in words:
@@ -55,7 +61,7 @@ def index_files(index, folder_path, save_path):
     print("Starting crawl and index...")
     for root, dirs, files in os.walk(folder_path):
         for file in files:
-            if file.endswith('.json'): 
+            if file.endswith('.json'):
                 file_path = os.path.join(root, file)
                 print(f"Processing file: {file_path}")
                 process_article(index, file_path, file)
@@ -81,25 +87,11 @@ def load_index(file_path):
     print(f"Index loaded from {file_path}")
     return index
 
-@timer
-def search_hash_map(index, word):
-    return index.search(word)
-
-@timer
-def search_avl_tree(index, word):
-    return index.search(word)
-
-@timer
-def search_list(index, word):
-    return index.search(word)
-
-@timer
-def search_bst(index, word):
-    return index.search(word)
 
 
 
 def main():
+
 
     # use command line to input specific directories for dataset input and output
     parser = argparse.ArgumentParser(description="Indexing program for news articles.")
@@ -111,13 +103,19 @@ def main():
     args = parser.parse_args()
 
     # set desired indexing structure
-    avl_tree = AVLTreeIndex()
+    #avl_tree = AVLTreeIndex()
     #list_index = ListIndex()
-    #hash_map = HashMapIndex()
+    hash_map = HashMapIndex()
     #bst_index = BinarySearchTreeIndex()
 
+    start_time = time.time()
     # extract, parse, index metadata into pickled index
-    index_files(avl_tree, args.dataset, args.pickle)
+    index_files(hash_map, args.dataset, args.pickle)
+
+    end_time = time.time()
+    print(f"Total indexing time: {end_time - start_time:.2f} seconds")
+
+
 
     # test by loading and printing pickled data
     #index = load_index(args.pickle)

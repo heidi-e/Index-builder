@@ -3,7 +3,31 @@ from typing import List
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import string
-import indexer.util.nltk_modules as nltk_modules
+#import indexer.util.nltk_modules as nltk_modules
+import nltk
+nltk.download('stopwords')
+
+import nltk
+
+def init_nltk_modules():
+    try:
+        # Attempt to find the resources, if not found, download them.
+        nltk.data.find("stopwords")
+    except LookupError:
+        nltk.download("stopwords", quiet=True)
+
+    try:
+        nltk.data.find("wordnet")
+    except LookupError:
+        nltk.download("wordnet", quiet=True)
+
+    try:
+        nltk.data.find("omw-1.4")
+    except LookupError:
+        nltk.download("omw-1.4", quiet=True)
+
+
+
 
 def preprocess_text(text: str) -> List[str]:
   """
@@ -19,7 +43,7 @@ def preprocess_text(text: str) -> List[str]:
     List[str]: The list of preprocessed tokens.
   """
   # Call helper function to initialize nltk modules
-  nltk_modules.init_nltk_modules()
+  init_nltk_modules()
   
   # Split the text into words
   words = text.split()
@@ -39,7 +63,7 @@ def preprocess_text(text: str) -> List[str]:
   # Iterate over each word
   for word in words:
     # Lemmatize the word
-    lemma = lemmatizer.lemmatize(word)
+    lemma = lemmatizer.lemmatize(word.lower())
 
     # Remove punctuation
     lemma = ''.join(char for char in lemma if char not in punctuation)
