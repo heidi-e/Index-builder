@@ -23,49 +23,25 @@ Good news - you'll benefit from the work of the previous research assistant who 
   - [ ] The implementation for our project submitted through GitHub/GH Classroom.
   - [ ] A written portion representing our project report via Gradescope
 
-
-
-
-### Your Task
-
-Using the sample dataset of finance-related news articles from 2018, you'll build indexes of varying sizes (number of documents) for each of the following data structures:
-
-- Binary Search Tree (BST)
-- AVL Tree
-- Hash Table
-- An indexing data structure of your choice
-
-You'll then run experiments to evaluate the performance of each data structure with respect to searching for a single word and/or a set of words.
-
-After collecting a sufficient amount of data, you'll analyze to draw conclusions about the relative performance of each data structure. You'll make a recommendation to the researcher on which data structure to use for their search engine (with supporting data and analysese) in the form of a research report.
-
 ### DataSet
-
-**Link to dataset will be pinned in the class Slack Channel.**
-
-**DO NOT EVER PUT THE DATASET IN YOUR REPO FOLDER. We do NOT want it pushed to GitHub.**
-
 The input corpus is based on the [US Financial News Articles](https://www.kaggle.com/datasets/jeet2016/us-financial-news-articles) Kaggle Dataset. It is a collection of finance-related news articles from Jan - May 2018. Each news article is stored in a separate JSON file containing metadata about the article as well as its full text. The full text has been pre-processed to remove stop words, remove any tokens composed of only digits and decimal points, and lemmatized.
 
-## Requirements
 
-1. Implement indexers based on the template repository using the following data structures:
-   - Binary Search Tree (BST)
-   - AVL Tree
-   - Hash Table
-   - An indexing data structure of your choice
-1. Crawl the folders of news articles and extract important metadata from each article as well as the `preprocessed_text` element. (Do not index the `text` element.) As you're parsing the new articles, store each word in the indexing structure you are currently testing along with the filename as the value. For the purpose of the project, you should extract, parse, and index the following metadata:
+## Implementation Procedure:
+1. My group started off by doing one of the data structures a person. 
+2. From here, we decided to set up the info for the experiments and also start the indexing process via crawling the folders, extracting relevant metadata such as `preprocessed_text`.
+3. As we went about parsing, our function stored each word in the index structure we were testing along with its filename. 
+4. The following metadata was manipulated:
    - title
    - source URL's domain name (cnn.com, reuters.com, etc.)
    - author's last name if present
-1. Generate >= 8 searching data sets of varying sizes, each with the following components:
+5. We proceeded to generate around 9 searching data sets of varying sizes, each with the following components:
    - **Component A**: a random sample of _n_ terms/tokens currently in the index (n should be a multiple of 4 and >= 4000),
    - **Component B**: an additional _(n/4)_ 2- and 3-word phrases added to the search set by randomly selecting 2 or 3 tokens from Component A and adding them to the searching data set,
    - **Component C**: an addition of _n_ randomly generated strings of characters that are unlikely to be in the index, and
    - **Component D**: an additional _(n/4)_ 2- and 3-word phrases to the set by randomly selecting 2 or 3 tokens from Component C and adding them to the searching data set
-   - **Shuffle each of the searching data sets before using them in the experiments below.**
-   -
-1. Design and implement a set of experiments to evaluate the performance of each data structure with respect to searching for tokens from the searching data sets. Take into consideration the information that is to be included in the final report so that you collect the correct data. For each run of an experiment, measure the time it takes to search the current data structure for the tokens in the searching data sets. Collect the data into a csv file that you will submit with your report.
+   - **We also shuffled each of the searching data sets before using them in the experiments.**
+   
 
 ## Implementation Details and Considerations
 
@@ -80,19 +56,17 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
 
 - File Storage/Locations:
   
-
   - None of our datasets are in our repo for the sake of saving storage and time. Instead, we stored our indexed one in a pickle file for use in the experiments. 
   - Our pickle files are also not in the repo for similar reason. The path to the root folder of the dataset is currently a variable in `assign_01.py`. You should convert this to a command line argument that can be passed in when running the program.
     - For example: `-d` or `--dataset` 
   - We also pickled our indexes, so we have  a separate command line argument for the path to the pickle files.
     - For example: `-p` or `--pickle` 
 
-
 - Each of the data structures inherit from a common interface of functionality in `indexer.abstract_index.AbstractIndex`. 
 
 ### Python Environment
 
-- Your implementation should run with Python 3.11. To create a new conda environment with python 3.11, run the following:
+- Our implementation runs with Python 3.11. To create a new conda environment with python 3.11, run the following:
 
 ```bash
 conda create -n <new_env_name> python=3.11
@@ -103,5 +77,3 @@ Subsequently, install additional packages listed in the requirements.txt file wi
 ```bash
 pip install -r requirements.txt
 ```
-
-If you add any packages to the base install, be sure to add them to the `requirements.txt` so the TAs will be able to run your programs easily.
