@@ -18,7 +18,7 @@ Subsequently, install additional packages listed in the requirements.txt file wi
 pip install -r requirements.txt
 ```
 
-- The above steps should allow you to run the program successfully. 
+- The above steps should allow you to run the program successfully. Also, to run commands, please use the terminal system rather than clicking run. We used VSCode for our program.
 
 ## Assignment Overview: 
 
