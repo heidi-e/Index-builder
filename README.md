@@ -105,21 +105,3 @@ pip install -r requirements.txt
 ```
 
 If you add any packages to the base install, be sure to add them to the `requirements.txt` so the TAs will be able to run your programs easily.
-
-## Final Deliverable
-
-1. A professional GitHub repository with your implementation. It should include a `README.md` file in the root folder giving **clear instructions on how to execute your program**.
-2. A CSV file containing the raw collected timing data. It should be stored in the `timing_data` folder of your repository. Your CSV file should be named `timing_data.csv`, and the columns of the CSV file should be the following:
-   - `run_id`: a unique id for this run of an experiment. This will help differentiate between runs of the same experiment (you should replicate each experiment multiple times and use the averages of the runs as the final result for that experiment).
-   - `compute_proc_type`: Intel i5, i7, or i9; AMD Ryzen 5, 7, or 9; Apple M1, M2, M3, or M4; or other (note this value will be the same for all runs of all experiments for one person on one machine)
-   - `primary_memory_size`: the size of the primary memory (RAM) in GB (note this value will be the same for all runs of all experiments for one person on one machine)
-   - `index_type`: the type of index used for the experiment (BST, AVL, Hash Table, or the name of the 4th data structure you chose)
-   - `num_docs_indexed`: the number of documents (individual JSON files) indexed for this experiment
-   - `num_tokens_indexed`: the number of tokens indexed for this experiment
-   - `search_set_base_size`: the value of _n_ used when generating this search data set.
-   - `search_time`: the time it took to search for the term in nanoseconds
-3. The list of documents returned for a specified search set. This should be stored in the `search_results` folder of your repository. I will provide this list to you, including the specific json files to search over. This step is to show that your search is functional.
-4. An analysis report in PDF form uploaded to GradeScope by the deadline. It should follow the structure of the template that will be provided to you.
-   - Remember, this is a data science course and the analysis performed should be robust and consistent with the level of this course and the skills gained in the prerequisites.
-   - There are several variables that you can manipulate in your experiments. Each experiment should only manipulate one variable at a time. Run your experiments in replicate in order to characterize the variability of the data.
-   - If you would like to do your data analysis and visualization generation in Jupyter (before writing your report), please include the Notebook file in the `timing_data` folder. Don't forget to add Jupyter/JupyterLab to the `requirements.txt` file. You can install Jupyter/JupyterLab in your environment via `pip install jupyterlab`.
