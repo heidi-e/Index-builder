@@ -33,6 +33,18 @@ def experiment_search_existing(index, n):
 for i in range(100):
     bst_index.insert(f"term{i}", f"value{i}")
 
+# Insert 100 keys first (so they exist before searching)
+for i in range(100):
+    avl_index.insert(f"term{i}", f"value{i}")
+
+# Insert 100 keys first (so they exist before searching)
+for i in range(100):
+    hm_index.insert(f"term{i}", f"value{i}")
+
+# Insert 100 keys first (so they exist before searching)
+for i in range(100):
+    l_index.insert(f"term{i}", f"value{i}")
+
 # Now perform search experiments
 experiment_search_existing(bst_index, 100)
 experiment_search_existing(avl_index, 100)
@@ -45,7 +57,7 @@ experiment_search_existing(l_index, 100)
 
 
 
-# E2: Search time for existing elements
+# E2: Search time for non-existing elements
 @timer
 def experiment_search_non_existing(index, n):
     search_times = []
@@ -61,6 +73,8 @@ experiment_search_non_existing(avl_index, 100)
 experiment_search_non_existing(hm_index, 100)
 experiment_search_non_existing(l_index, 100)
 
+
+#E3: 
 
 
 

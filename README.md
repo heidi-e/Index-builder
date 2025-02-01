@@ -3,7 +3,7 @@
 ## Group: 
 Heidi Eren, Lily Hoffman, and Mihalis Koutouvos
 
-### Scenario (Hypothetical)
+### Scenario (Hypothetical):
 
 You're working for a researcher who is trying to build a specialized search engine over a large corpus of documents. The researcher ultimately need a fast way to search through thousands of documents for specific words or phrases and the total number of documents that contain the word or phrase and total number of pre-processed words in those documents.
 
@@ -11,34 +11,17 @@ The first step is to evaluate the performance of several different in-memory ind
 
 Good news - you'll benefit from the work of the previous research assistant who just accepted a co-op. The had already implemented the bulk of the BST, a portion of the AVL tree, and has set up a repository already!
 
-
-
-
-
-
-
-
-## Mihalis: Instructions are below!
-
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/x2sAhQ2z)
-# DS4300 - Spring 2025 - Practical #1 - Index It
-
-This is the template repository for Practical #1.
-
-#### Due Date:
-
+### Due Dates:
 - EC Due Date: February 2nd, 2025 @ 11:59pm
 - Regular Due Date: February 4th, 2025 @ 11:59pm
 
 ## Important Notes:
 
-- [ ] What to submit where?
-  - [ ] Implementation project should be submitted through GitHub/GH Classroom.
-  - [ ] Written portion should be submitted via GradeScope.
+- [ ] What did we submit? 
+  - [ ] The implementation for our project submitted through GitHub/GH Classroom.
+  - [ ] A written portion representing our project report via Gradescope
 
-**Group Work**
 
-You may complete this practical in teams of 2 students or 3 students. I will consider teams of 4, but there will be extra requirements for teams of 4.
 
 **Reminder**
 
