@@ -1,5 +1,3 @@
-import csv 
-
 timing_data = [{'run_id': pass,  
         'compute_proc_type': pass,   
         'primary_memory_size': pass, 
@@ -32,11 +30,3 @@ timing_data = [{'run_id': pass,
         'search_set_base_size': pass, 
         'search_time': pass},
 ]
-
-with open('timing_data.csv', 'w', newline='') as csvfile:
-    field_names = ['run_id', 'compute_proc_type', 'primary_memory_size', 
-                'index_size', 'num_docs_indexed', 'search_set_base_size', 'search_time']
-
-    writer = csv.DictWriter(csvfile, field_names=field_names)
-    writer.writeheader()
-    write.writerows(data)
