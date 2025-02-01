@@ -3,6 +3,8 @@
 ## Group: 
 Heidi Eren, Lily Hoffman, and Mihalis Koutouvos
 
+## Assignment Overview: 
+
 ### Scenario (Hypothetical):
 
 You're working for a researcher who is trying to build a specialized search engine over a large corpus of documents. The researcher ultimately need a fast way to search through thousands of documents for specific words or phrases and the total number of documents that contain the word or phrase and total number of pre-processed words in those documents.
@@ -23,21 +25,6 @@ Good news - you'll benefit from the work of the previous research assistant who 
 
 
 
-**Reminder**
-
-- I expect you to fully understand (at the level of each line of code) and _be able to explain in-person_ anything you submit with your name on it.
-  - What does this mean for coding assistants and LLMs? If used appropriately, these can be amazing tools to aid in your understanding and comprehension of material as well as assist you in coding and debugging. It is no more or less wrong to blindly copy and paste code from an coding assistant/LLM as it would be to copy and paste from existing code on GitHub or from a text book. If you don't understand it and can't explain it, then you should not submit it.
-  - If you find code online or from a coding assistant that you are struggling to interpret or understand what is going on conceptually, all you have to do is ask me or one of the TAs. I'll gladly help you interpret things.
-
-## Assignment Overview
-
-### Scenario (Hypothetical)
-
-You're working for a researcher who is trying to build a specialized search engine over a large corpus of documents. The researcher ultimately need a fast way to search through thousands of documents for specific words or phrases and the total number of documents that contain the word or phrase and total number of pre-processed words in those documents.
-
-The first step is to evaluate the performance of several different in-memory indexing data structures so that you can make an informed decision on which data structure to use. The researcher has provided you with a dataset of news articles and asked you to evaluate the performance of the data structures with respect to searching.
-
-Good news - you'll benefit from the work of the previous research assistant who just accepted a co-op. The had already implemented the bulk of the BST, a portion of the AVL tree, and has set up a repository already!
 
 ### Your Task
 
