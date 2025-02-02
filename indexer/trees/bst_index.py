@@ -158,7 +158,11 @@ class BinarySearchTreeIndex(AbstractIndex):
         Returns:
             None
         """
-        self.root = self._insert_recursive(self.root, key, value)
+        #self.root = self._insert_recursive(self.root, key, value)
+        added_root = self._insert_recursive(self.root, key, value)
+
+        if added_root is not None:
+            self.root = added_root
 
     def search(self, key: Any) -> List[Any]:
         """

@@ -60,7 +60,7 @@ class ListIndex(AbstractIndex):
 
         # if key does not exist in list, flag an error
         if not values:
-            raise KeyError(f"Key {key} not found in the list.")
+            return []
 
 
         return values

@@ -71,18 +71,6 @@ def experiment_search_non_existing(index, n):
 
     print(articles_passed, tokens)
 
-#
-
-
-#E3: Check Inserting Time
-@timer 
-def insert_items(index, n):
-    for i in range(n):
-        key = generate_random_string(12)
-        value = generate_random_string(12)
-        index.insert(key, value)
-
-    print(index, n)
 
 
 
@@ -183,13 +171,6 @@ def main():
     experiment_search_non_existing(avl_index, 100)
     experiment_search_non_existing(hm_index, 100)
     experiment_search_non_existing(l_index, 100)
-
-    # Now perform search experiments
-    print("E3 Experiments")
-    insert_items(bst_index, 100)
-    insert_items(avl_index, 100)
-    insert_items(hm_index, 100)
-    insert_items(l_index, 100)
 
 
 if __name__ == "__main__":
