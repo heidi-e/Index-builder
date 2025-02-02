@@ -93,13 +93,20 @@ def index_files(path: str, index: AbstractIndex) -> None:
     
     with open(path, 'r', encoding='utf-8') as file:
         data = json.load(file)
+        print(data)
 
-    for token in data:
-        article_count = article_count + 1
-        token_count = len(token)
+    
+    for val in data:
+        if 'dataset' not in val or not isinstance(val['dataset'], list):
+            continue
 
-        for word in token:
-            index.insert(word, "dataset")
+        dataset = val['dataset']
+        
+        for token in data:
+            article_count = article_count + 1
+            index.insert(token, "dataset")
+            
+        article_count = article_count + len(dataset)
 
     print(token_count, article_count)
 
@@ -110,31 +117,50 @@ def loopy_loop():
     total = sum((x for x in range(0, 1000000)))
 
 
+def load_pickle_files(index, pickled_data, data_file):
+    if os.path.exists(pickled_data):
+        with open(pickled_data, 'rb') as file:
+            index = pickle.load(file)
+    else: 
+        index_files(data_file, index)
+        with open(pickled_data, 'wb') as file:
+            pickle.dump(index, file)
+    
+        return index
+
+
 def main():
+    bst_index = BinarySearchTreeIndex()
+    avl_index = AVLTreeIndex()
+    hm_index = HashMapIndex()
+    l_index = ListIndex()
 
     pickle_data_bst = '/Users/mihaliskoutouvos/Downloads/final_pickles 2/bst_index.pkl'
     pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 2/avl_index.pkl'
     pickle_data_ht =  '/Users/mihaliskoutouvos/Downloads/final_pickles 2/hash_index.pkl'
     pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 2/list_index.pkl'
     data_directory = '/Users/mihaliskoutouvos/Downloads/compiled_datasets.json'
+
     
-
-    bst_index = BinarySearchTreeIndex()
-    avl_index = AVLTreeIndex()
-    hm_index = HashMapIndex()
-    l_index = ListIndex()
-
-    index_files(data_directory, bst_index)
-    index_files(data_directory, avl_index)
-    index_files(data_directory, hm_index)
-    index_files(data_directory, l_index)
-
+    load_pickle_files(bst_index, pickle_data_bst, data_directory)
+    load_pickle_files(avl_index, pickle_data_avl, data_directory)
+    load_pickle_files(hm_index, pickle_data_ht, data_directory)
+    load_pickle_files(l_index, pickle_data_l, data_directory)
+    
     # As a gut check, we are printing the keys that were added to the
     # index in order.
     print(bst_index.get_keys_in_order())
     print(avl_index.get_keys_in_order())
     print(hm_index.get_keys_in_order())
     print(l_index.get_keys_in_order())
+    
+
+    index_files(data_directory, bst_index)
+    index_files(data_directory, avl_index)
+    index_files(data_directory, hm_index)
+    index_files(data_directory, l_index)
+
+    
 
     # quick demo of how to use the timing decorator included
     # in indexer.util
