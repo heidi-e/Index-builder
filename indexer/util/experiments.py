@@ -10,6 +10,11 @@ import json
 import pickle
 import os 
 
+bst_index = BinarySearchTreeIndex()
+avl_index = AVLTreeIndex()
+hm_index = HashMapIndex()
+l_index = ListIndex()
+
 
 # Generate random strings
 def generate_random_string(length):
@@ -41,11 +46,11 @@ def experiment_search_existing(index, n):
 
 
 # Insert 100 keys first (so they exist before searching)
-#for i in range(100):
- #   bst_index.insert(f"term{i}", f"value{i}")
-  #  avl_index.insert(f"term{i}", f"value{i}")
-   # hm_index.insert(f"term{i}", f"value{i}")
-    #l_index.insert(f"term{i}", f"value{i}")
+for i in range(100):
+    bst_index.insert(f"term{i}", f"value{i}")
+    avl_index.insert(f"term{i}", f"value{i}")
+    hm_index.insert(f"term{i}", f"value{i}")
+    l_index.insert(f"term{i}", f"value{i}")
 
 #
 
@@ -93,7 +98,6 @@ def index_files(path: str, index: AbstractIndex) -> None:
     
     with open(path, 'r', encoding='utf-8') as file:
         data = json.load(file)
-        print(data)
 
     
     for val in data:
@@ -103,9 +107,9 @@ def index_files(path: str, index: AbstractIndex) -> None:
         dataset = val['dataset']
         
         for token in data:
-            article_count = article_count + 1
             index.insert(token, "dataset")
-            
+            token_count = token_count + 1
+         
         article_count = article_count + len(dataset)
 
     print(token_count, article_count)
