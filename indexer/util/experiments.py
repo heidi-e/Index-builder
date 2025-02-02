@@ -15,11 +15,9 @@ import os
 def generate_random_string(length):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
-
-
 # E1: Search time for existing elements
 @timer
-def experiment_search_existing(index, id, n, docs_searched, tokens_counted):
+def experiment_search_existing(index, n):
     
     articles_passed = set()
     tokens = 0
@@ -35,19 +33,19 @@ def experiment_search_existing(index, id, n, docs_searched, tokens_counted):
         except KeyError: 
             pass
     
-    docs_indexed_during_exp = len(docs_searched)
-    tokens_identified = tokens_counted
+    articles_indexed_during_exp = len(articles_passed)
+    tokens_identified = tokens
 
-    print(docs_indexed_during_exp, tokens_identified)
+    print(articles_indexed_during_exp, tokens_identified)
 
 
 
 # Insert 100 keys first (so they exist before searching)
-for i in range(100):
-    bst_index.insert(f"term{i}", f"value{i}")
-    avl_index.insert(f"term{i}", f"value{i}")
-    hm_index.insert(f"term{i}", f"value{i}")
-    l_index.insert(f"term{i}", f"value{i}")
+#for i in range(100):
+ #   bst_index.insert(f"term{i}", f"value{i}")
+  #  avl_index.insert(f"term{i}", f"value{i}")
+   # hm_index.insert(f"term{i}", f"value{i}")
+    #l_index.insert(f"term{i}", f"value{i}")
 
 #
 
@@ -93,10 +91,10 @@ def index_files(path: str, index: AbstractIndex) -> None:
         print(f"path = {path}")
 
     
-    with open(path, 'r', encode='utf-8') as file:
+    with open(path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
-    for token in data.get('dataset', None):
+    for token in data:
         article_count = article_count + 1
         token_count = len(token)
 
