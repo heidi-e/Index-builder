@@ -1,25 +1,45 @@
-from indexer.maps.hash_map import HashMapIndex 
+import unittest
+from indexer.maps.hash_map import HashMapIndex
 
-def test_hash_map_index():
-    index = HashMapIndex()
-    
-    # Test adding terms and document IDs
-    index.add("apple", 1)
-    index.add("banana", 2)
-    index.add("apple", 3)
+class TestHashMapIndex(unittest.TestCase):
+    def setUp(self):
+        self.index = HashMapIndex()
 
-    assert index.search("apple") == {1, 3}, "Test case for adding/searching 'apple' failed"
-    assert index.search("banana") == {2}, "Test case for adding/searching 'banana' failed"
-    assert index.search("cherry") == set(), "Test case for searching non-existent term 'cherry' failed"
+    def test_add_and_search(self):
+        self.index.add("apple", 1)
+        self.index.add("banana", 2)
+        self.index.add("apple", 3)
+        
+        self.assertEqual(self.index.search("apple"), {1, 3})
+        self.assertEqual(self.index.search("banana"), {2})
+        self.assertEqual(self.index.search("cherry"), set())
     
-    # Test removing terms
-    index.remove("apple")
-    assert index.search("apple") == set(), "Test case for removing 'apple' failed"
+    def test_remove(self):
+        self.index.add("dog", 5)
+        self.index.add("cat", 6)
+        self.assertEqual(self.index.search("dog"), {5})
+        
+        self.index.remove("dog")
+        self.assertEqual(self.index.search("dog"), set())
     
-    index.remove("banana")
-    assert index.search("banana") == set(), "Test case for removing 'banana' failed"
+    def test_get_keys_in_order(self):
+        self.index.add("x", 10)
+        self.index.add("y", 20)
+        self.index.add("z", 30)
+        
+        self.assertEqual(self.index.get_keys_in_order(), ["x", "y", "z"])
+        
+        self.index.remove("y")
+        self.assertEqual(self.index.get_keys_in_order(), ["x", "z"])
     
-    print("All test cases passed!")
+    def test_insert_alias(self):
+        self.index.insert("alpha", 100)
+        self.assertEqual(self.index.search("alpha"), {100})
+    
+    def test_iteration(self):
+        self.index.add("red", 50)
+        self.index.add("blue", 60)
+        self.assertEqual(list(iter(self.index)), ["red", "blue"])
 
 if __name__ == "__main__":
-    test_hash_map_index()
+    unittest.main()

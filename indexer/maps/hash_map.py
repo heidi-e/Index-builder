@@ -1,45 +1,85 @@
 from indexer.abstract_index import AbstractIndex
 
 class HashMapIndex(AbstractIndex):
-    
-    def __init__(self):
+    class Node:
+        """A node in the linked list for separate chaining"""
+        def __init__(self, key, value):
+            self.key = key
+            self.value = value
+            self.next = None
+
+    def __init__(self, capacity=100):
         super().__init__()
-        self.hash_map = {}
+        self.capacity = capacity
+        self.size = 0
+        self.buckets = [None] * capacity
+        self.key_order = []
+
+    def _hash(self, key):
+        return hash(key) % self.capacity
 
     def add(self, term, document_id):
-        """
-        Add a document ID to the set of document IDs associated with a term
-        """ 
-        if term not in self.hash_map:
-            self.hash_map[term] = set()
-        self.hash_map[term].add(document_id)
+        existing = self._get(term)
+        if existing is None:
+            existing = set()
+            if term not in self.key_order:
+                self.key_order.append(term)
+        existing.add(document_id)
+        self._put(term, existing)
 
     def search(self, term):
-        """
-        Search for the set of document IDs associated with a term
-        """ 
-        return self.hash_map.get(term, set())
+        return self._get(term) or set()
 
     def remove(self, term):
-        """
-        Remove a term and its associated document IDs from the hashmap
-        """ 
-        if term in self.hash_map:
-            del self.hash_map[term]
-
-    def __iter__(self):
-        """
-        Return an iterator over the terms in the hashmap
-        """ 
-        return iter(self.hash_map)
+        self._remove(term)
+        if term in self.key_order:
+            self.key_order.remove(term)
 
     def insert(self, term, document_id):
-        """
-        Alias for add method (test function needed it)
-        """ 
         self.add(term, document_id)
 
-
     def get_keys_in_order(self):
-        # Return a list of all keys 
-        return list(self.hash_map.keys())
+        return self.key_order
+
+    def _put(self, key, value):
+        index = self._hash(key)
+        if self.buckets[index] is None:
+            self.buckets[index] = self.Node(key, value)
+        else:
+            current = self.buckets[index]
+            while current:
+                if current.key == key:
+                    current.value = value
+                    return
+                if current.next is None:
+                    break
+                current = current.next
+            current.next = self.Node(key, value)
+        self.size += 1
+
+    def _get(self, key):
+        index = self._hash(key)
+        current = self.buckets[index]
+        while current:
+            if current.key == key:
+                return current.value
+            current = current.next
+        return None
+
+    def _remove(self, key):
+        index = self._hash(key)
+        current = self.buckets[index]
+        prev = None
+        while current:
+            if current.key == key:
+                if prev:
+                    prev.next = current.next
+                else:
+                    self.buckets[index] = current.next
+                self.size -= 1
+                return
+            prev = current
+            current = current.next
+
+    def __iter__(self):
+        return iter(self.key_order)
