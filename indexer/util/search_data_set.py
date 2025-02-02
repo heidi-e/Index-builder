@@ -1,6 +1,8 @@
 import random
 import string
 import pickle
+import time
+import json
 
 def generate_n():
     """Generates a random integer n that is less than or equal to 4000 and divisible by 4."""
@@ -61,27 +63,85 @@ def load_index(file_path):
     print(f"Index loaded from {file_path}")
     return index
 
+def reformat_dataset(index, search_data_set, n, time, count):
+    """
+    Save and compile each dataset as a json file with metrics
+    """
+
+    json_dataset = {
+        count: {
+            'indexing_structure': index,
+            'dataset': search_data_set,
+            'n': n,
+            'time': time
+        }
+    }
+    return json_dataset
+
+
 
 def main():
     # in command line: python -m indexer.util.search_data_set
 
     # generate random number n
-    n = generate_n()
+    #n = generate_n()
 
     # specify indexing structure, type in as string
-    indexing_structure = 'bst_index'
+    #indexing_structure = 'hash_index'
     #indexing_structure = 'hash_index'
     #indexing_structure = 'avl_index'
     #indexing_structure = 'list_index'
 
 
+
     # specify directory with pickled indexing structure
-    index_data = f'/Users/Heidi/Downloads/final_pickles/{indexing_structure}.pkl'
+    #index_data = f'/Users/Heidi/Downloads/final_pickles/{indexing_structure}.pkl'
 
     # generate searching data set
-    search_data_set = create_search_data_set(index_data, n)
+    #search_data_set = create_search_data_set(index_data, n)
 
-    print(search_data_set)
+    #indexing_list = ['hash', 'avl', 'list', 'bst']
+
+    indexing_list = ['hash', 'bst']
+
+    # set file path to save compiled doc
+    file_path = "compiled_datasets.json"
+
+    # create a new JSON file or open an existing one
+    try:
+        with open(file_path, "r") as file:
+            dataset_file = json.load(file)  # Load existing data
+    except (FileNotFoundError, json.JSONDecodeError):
+        dataset_file = []  # Create an empty list if file doesn't exist or is empty
+
+
+    # generate data sets and compile them into one json file
+    for i in range(4):
+
+        start_time = time.time()
+        # generate a random sample n to token
+        n = generate_n()
+
+        # select a random indexing structure
+        random_idx = random.choice(indexing_list)
+
+        # specify directory with pickled indexing structure
+        index_data = f'/Users/Heidi/Downloads/final_pickles/{random_idx}_index.pkl'
+
+        # generate searching data set
+        search_data_set = create_search_data_set(index_data, n)
+
+        end_time = time.time()
+
+        # compile into json file
+        tot_time = round(end_time - start_time, 2)
+        reformated_data = reformat_dataset(random_idx, search_data_set, n, tot_time, i+1)
+
+        dataset_file.append(reformated_data)
+
+    # write updated data to the JSON file
+    with open(file_path, "w") as file:
+        json.dump(dataset_file, file, indent=4)
 
     #index_data = 'index.pkl'
 
