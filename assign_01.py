@@ -1,4 +1,5 @@
 import json
+from indexer.trees import bst_index
 from indexer.trees.avl_tree import AVLTreeIndex
 from indexer.trees.bst_index import BinarySearchTreeIndex
 from indexer.trees.bst_index import HashMapIndex
@@ -79,7 +80,7 @@ def main():
 
     # As a gut check, we are printing the keys that were added to the
     # index in order.
-    print(hm_index.get_keys_in_order())
+    print(bst_index.get_keys_in_order())
 
     # quick demo of how to use the timing decorator included
     # in indexer.util
