@@ -1,0 +1,173 @@
+from indexer.abstract_index import AbstractIndex
+from indexer.maps.hash_map import HashMapIndex
+from indexer.trees.avl_tree import AVLTreeIndex
+from indexer.lists.list_index import ListIndex
+from indexer.trees.bst_index import BinarySearchTreeIndex
+from indexer.util.timer import timer
+import random
+import string
+import json
+import pickle
+import pandas as pd
+import os
+
+bst_index = BinarySearchTreeIndex()
+avl_index = AVLTreeIndex()
+hm_index = HashMapIndex()
+l_index = ListIndex()
+
+
+# Generate random strings
+def generate_random_string(length):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+
+# E1: Search time for existing elements
+
+@timer
+def experiment_searching(index_name, index, datasets, n_list):
+    # Initialize counters for the final counts
+    total_docs_indexed = 0
+    total_tokens_indexed = 0
+
+    df = pd.DataFrame()
+
+
+    for i in range(len(datasets)):   # Loop through each dataset
+        docs_indexed = 0      # Total number of documents indexed for this dataset
+        tokens_indexed = 0    # Total number of tokens indexed for this dataset
+
+        for word in datasets[i]:    # Loop through each word in the dataset
+            try:
+                list_of_articles = index.search(word)  # Search for the word in the index
+
+                # If articles are found for the word, add to the respective counters
+                if list_of_articles:
+                    docs_indexed += len(list_of_articles)  # Number of documents for this word
+                    tokens_indexed += 1  # Count this word as indexed
+
+            except KeyError:
+                # If the word isn't found in the index, continue with the next word
+                pass
+
+        # Accumulate totals for all datasets
+        total_docs_indexed += docs_indexed
+        total_tokens_indexed += tokens_indexed
+
+        # Final dictionary for overall counts
+        overall_summary = {
+            'indexing': index_name,
+            'dataset': i+1,
+            'n': n_list[i],
+            'total_docs_indexed': total_docs_indexed,
+            'total_tokens_indexed': total_tokens_indexed
+        }
+
+        # Convert data to a DataFrame (one row)
+        new_row = pd.DataFrame([overall_summary])
+
+        # Append the new row to the DataFrame
+        df = pd.concat([df, new_row], ignore_index=True)
+
+    # Return only the overall summary
+    return df
+
+
+
+
+
+
+# E2: Search time for non-existing elements
+@timer
+def experiment_search_non_existing(index, n):
+    articles_passed = set()
+    tokens = 0
+    search_times = []
+
+    for i in range(n):
+        term = f"non_existing_term{i}"
+        try:
+            search_time = index.search(term)
+            search_times.append(search_time)
+        except KeyError:
+            pass
+
+    print(articles_passed, tokens)
+
+
+def find_search_data_sets(path: str):
+    all_search_datasets = []
+    all_n = []
+    # path should contain the location of the news articles you want to parse
+    if path is not None:
+        print(f"path = {path}")
+
+    with open(path, 'r', encoding='utf-8') as file:
+        entire_json = json.load(file)
+
+    for dict in entire_json:
+        # specify dataset key with words
+        dataset = dict.get('dataset', [])
+        n = dict.get('n', 0)
+        all_search_datasets.append(dataset)
+        all_n.append(n)
+    return all_search_datasets, all_n
+
+
+
+def my_load_index(file_path):
+    """
+    Load the index from a pickle file.
+    """
+    with open(file_path, 'rb') as f:
+        index = pickle.load(f)
+    print(f"Index loaded from {file_path}")
+    return index
+
+
+
+def main():
+
+    pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
+    pickle_data_avl = '/Users/Heidi/Downloads/final_pickles/avl_index.pkl'
+    pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
+    pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
+
+
+    bst_index = my_load_index(pickle_data_bst)
+    avl_index = my_load_index(pickle_data_avl)
+    hash_index = my_load_index(pickle_data_ht)
+    list_index = my_load_index(pickle_data_l)
+
+
+    data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
+
+    # make a list of all the words from search data sets
+    datasets, n_list = find_search_data_sets(data_directory)
+
+    # Now perform search experiments
+    print("E1 Experiments")
+    df1 = experiment_searching('list', list_index, datasets, n_list)
+    df2 = experiment_searching('hash', hash_index, datasets, n_list)
+
+    df3 = experiment_searching('avl', avl_index, datasets, n_list)
+    df4 = experiment_searching('bst', bst_index, datasets, n_list)
+
+
+    df_combined = pd.concat([df1, df2, df3, df4], axis=0)
+    print(df_combined)
+
+    #experiment_search_existing(avl_index, datasets)
+    #experiment_search_existing(hm_index, datasets)
+    #experiment_search_existing(l_index, datasets)
+'''
+    # Now perform search experiments
+    print("E2 Experiments")
+    experiment_search_non_existing(bst_index, 100)
+    experiment_search_non_existing(avl_index, 100)
+    experiment_search_non_existing(hm_index, 100)
+    experiment_search_non_existing(l_index, 100)'''
+
+
+if __name__ == "__main__":
+    main()
