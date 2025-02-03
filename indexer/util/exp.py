@@ -109,6 +109,13 @@ def experiment_missing_words(index_name, index, datasets, n_list):
     
     return df
 
+# Mihalis --> Potential Experiment 3 Idea: Search Time for Phrase Matching (2- and 3- word phrases)
+#       - Measure the time to search for 2- and 3- word phrases added to the search set
+#       - Evaluate the performance of searching for phrases in comparison to single tokens. Phrases
+#           may present a higher complexity for indexing structures. Measure the time it takes to find these
+#           phrases and ocmpare it with the time taken for single tokens. Search time for phrases, average search time for phrases
+#           vs. single tokens.
+
 
 def find_search_data_sets(path: str):
     all_search_datasets = []
