@@ -28,11 +28,8 @@ def create_search_data_set(pickled_indexed_data, n: int):
     # Randomly sample n terms currently in index
     all_terms = indexed_data.get_keys_in_order()
 
-    #print(indexed_data[:5])
-    # Check if there are enough terms to sample from
-    #if len(all_terms) < n:
-        #raise ValueError("Sample size 'n' is larger than the number of unique terms in the index")
-    
+
+
     comp_A = random.sample(all_terms, n)
 
     # Component B
@@ -69,13 +66,12 @@ def reformat_dataset(index, search_data_set, n, time, count):
     """
 
     json_dataset = {
-        count: {
+            'count': count,
             'dataset': search_data_set,
             'indexing_structure': index,
             'n': n,
             'time': time
         }
-    }
     return json_dataset
 
 
@@ -83,28 +79,11 @@ def reformat_dataset(index, search_data_set, n, time, count):
 def main():
     # in command line: python -m indexer.util.search_data_set
 
-    # generate random number n
-    #n = generate_n()
-
-    # specify indexing structure, type in as string
-    #indexing_structure = 'hash_index'
-    #indexing_structure = 'hash_index'
-    #indexing_structure = 'avl_index'
-    #indexing_structure = 'list_index'
-
-
-
-    # specify directory with pickled indexing structure
-    #index_data = f'/Users/Heidi/Downloads/final_pickles/{indexing_structure}.pkl'
-
-    # generate searching data set
-    #search_data_set = create_search_data_set(index_data, n)
-
     indexing_list = ['hash', 'avl', 'list', 'bst']
 
 
     # set file path to save compiled doc
-    file_path = "compiled_datasets.json"
+    file_path = "compiled_datasets_final.json"
 
     # create a new JSON file or open an existing one
     try:
@@ -142,11 +121,7 @@ def main():
     with open(file_path, "w") as file:
         json.dump(dataset_file, file, indent=4)
 
-    #index_data = 'index.pkl'
 
-    #index = load_index(avl_index_data)
-    #keys = index.get_keys_in_order()[:5]
-    #print(keys)
 
 if __name__ == '__main__':
     main()

@@ -186,7 +186,7 @@ def main():
     pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 2/avl_index.pkl'
     pickle_data_ht =  '/Users/mihaliskoutouvos/Downloads/final_pickles 2/hash_index.pkl'
     pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 2/list_index.pkl'
-    data_directory = '/Users/mihaliskoutouvos/Downloads/compiled_datasets.json'
+    data_directory = '/Users/mihaliskoutouvos/Downloads/compiled_datasets_final.json'
 
     # Insert 100 keys first (so they exist before searching)
     for i in range(100):
