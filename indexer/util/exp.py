@@ -116,6 +116,11 @@ def experiment_missing_words(index_name, index, datasets, n_list):
 #           phrases and ocmpare it with the time taken for single tokens. Search time for phrases, average search time for phrases
 #           vs. single tokens.
 
+#           Graph
+#           X = Key Number
+#           Y = Number of Articles that have that phrase
+
+
 
 def find_search_data_sets(path: str):
     all_search_datasets = []
