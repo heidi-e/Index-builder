@@ -4,7 +4,7 @@
 Heidi Eren, Lily Hoffman, and Mihalis Koutouvos
 
 ## Running Program: 
-- In order to run the program, please clone the repository and proceed with the following steps: 
+- In order to run the program, please clone the repository and proceed with the following steps. Please also be sure to run the experiments.py file, which is inside of util. 
 
 ### Python Environment
 
@@ -21,6 +21,8 @@ pip install -r requirements.txt
 ```
 
 - The above steps should allow you to run the program successfully. Also, to run commands, please use the terminal system rather than clicking run. We used VSCode for our program.
+
+- To run experiments, type the following in so that 
 
 ## Assignment Overview: 
 
