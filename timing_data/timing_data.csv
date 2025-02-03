@@ -5,7 +5,7 @@ timing_data = [
         'index_type': BST, 
         'num_docs_indexed': 100, 
         'search_set_base_size': 2548, 
-        'search_time': 73000},
+        'search_time': 139000},
 
         {'run_id': 1,  
         'compute_proc_type': Apple M2,   
@@ -13,7 +13,7 @@ timing_data = [
         'index_type': AVL, 
         'num_docs_indexed': 100, 
         'search_set_base_size': 2252, 
-        'search_time': 52000},
+        'search_time': 77000},
 
         {'run_id': 1,  
         'compute_proc_type': Apple M2,   
@@ -21,7 +21,7 @@ timing_data = [
         'index_type': Hash Table, 
         'num_docs_indexed': 100, 
         'search_set_base_size': 2748, 
-        'search_time': 61000},
+        'search_time': 78000},
 
         {'run_id': 1,  
         'compute_proc_type': Apple M2,   
@@ -29,7 +29,7 @@ timing_data = [
         'index_type': List, 
         'num_docs_indexed': 100, 
         'search_set_base_size': 420, 
-        'search_time': 35000},
+        'search_time': 189000},
 
         {'run_id': 2,  
         'compute_proc_type': M2,   
