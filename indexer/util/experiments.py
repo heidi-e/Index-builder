@@ -23,11 +23,23 @@ def generate_random_string(length):
 # E1: Search time for existing elements
 @timer
 def experiment_search_existing(index, n):
+    """
+        Searching for existing values
+
+        Args:
+            index - one of the four data structres
+            n - amount of values to check
+
+        Results:
+            Nothing, but prints out counts for tokens and articles 
+        """
     
+    #Initializing values
     articles_passed = set()
     tokens = 0
     search_times = []
     
+    #Appending terms to our variables holding info
     for i in range(n):
         term = f"term{i}"
         try: 
@@ -57,6 +69,16 @@ for i in range(100):
 # E2: Search time for non-existing elements
 @timer
 def experiment_search_non_existing(index, n):
+    """
+        Searching for non-existing values
+
+        Args:
+            index - one of the four data structres
+            n - amount of values to check
+
+        Results:
+            Nothing, but prints out counts for tokens and articles 
+        """
     articles_passed = set()
     tokens = 0
     search_times = []
@@ -76,6 +98,17 @@ def experiment_search_non_existing(index, n):
 
 
 def index_files(path: str, index: AbstractIndex) -> None:
+    """
+        Indexing the search data sets
+
+        Args:
+            path - file path as a string
+            index - one of the four data structures
+
+        Results:
+            Nothing, but prints out counts for tokens and articles 
+        """
+    #Initializing values
     token_count = 0
     article_count = 0
 
@@ -83,11 +116,11 @@ def index_files(path: str, index: AbstractIndex) -> None:
     if path is not None:
         print(f"path = {path}")
 
-    
+    #Load json file
     with open(path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
-    
+    #Checking if dataset does not appear as a valid entry in the search datasets
     for val in data:
         if 'dataset' not in val or not isinstance(val['dataset'], list):
             continue
@@ -97,9 +130,9 @@ def index_files(path: str, index: AbstractIndex) -> None:
         for token in data:
             index.insert(token, "dataset")
             token_count = token_count + 1
-         
         article_count = article_count + len(dataset)
 
+    #Printing totals for tokens and articles passed
     print(token_count, article_count)
 
 
@@ -110,6 +143,17 @@ def loopy_loop():
 
 
 def load_pickle_files(index, pickled_data, data_file):
+    """
+        Opens and loads the pickled files for indexing purposes
+
+        Args:
+            index - one of the four data structurs
+            pickled_data - the pickled file
+            data_file - the search datasets 
+
+        Results:
+            The data structure used
+        """
     if os.path.exists(pickled_data):
         with open(pickled_data, 'rb') as file:
             index = pickle.load(file)
@@ -122,11 +166,22 @@ def load_pickle_files(index, pickled_data, data_file):
 
 
 def main():
+    """
+        Update the height of a node
+
+        Args:
+            None
+
+        Results:
+            Values including the time it took, in nanoseconds, for the experiments to run for each data structure
+        """
+    #Objects for the data structures
     bst_index = BinarySearchTreeIndex()
     avl_index = AVLTreeIndex()
     hm_index = HashMapIndex()
     l_index = ListIndex()
 
+    #Pickled data files
     pickle_data_bst = '/Users/mihaliskoutouvos/Downloads/final_pickles 2/bst_index.pkl'
     pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 2/avl_index.pkl'
     pickle_data_ht =  '/Users/mihaliskoutouvos/Downloads/final_pickles 2/hash_index.pkl'
@@ -147,15 +202,13 @@ def main():
     print(l_index.get_keys_in_order())
     
 
+    #Indexing the datasets using a specific data structure
     index_files(data_directory, bst_index)
     index_files(data_directory, avl_index)
     index_files(data_directory, hm_index)
     index_files(data_directory, l_index)
 
-    
-
-    # quick demo of how to use the timing decorator included
-    # in indexer.util
+    # Fontenot's loop function, not too useful for us here. 
     loopy_loop()
 
     # Now perform search experiments
@@ -171,7 +224,6 @@ def main():
     experiment_search_non_existing(avl_index, 100)
     experiment_search_non_existing(hm_index, 100)
     experiment_search_non_existing(l_index, 100)
-
 
 if __name__ == "__main__":
     main()

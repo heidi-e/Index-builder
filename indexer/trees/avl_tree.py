@@ -39,6 +39,15 @@ class AVLTreeIndex(BinarySearchTreeIndex):
 
     #This function is extremely important for the recursive portion of this indexer
     def _update_node_height(self, node: Optional[AVLNode]) -> None:
+        """
+        Update the height of a node
+
+        Args:
+            node - AVLNode
+
+        Results:
+            Outputs the height of a node
+        """
         
         #Indicating the height and then updating it after finding out the note exists. If it does not, nothing gets
         #updated
