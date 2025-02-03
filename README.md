@@ -66,7 +66,7 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
 - File Storage/Locations:
   
   - None of our datasets are in our repo for the sake of saving storage and time. Instead, we stored our indexed one in a pickle file for use in the experiments. 
-  - Our pickle files are also not in the repo for similar reason. The path to the root folder of the dataset is currently a variable in `assign_01.py`. You should convert this to a command line argument that can be passed in when running the program.
+  - Our pickle files are also not in the repo for similar reason. We decided to store our dataset locally on our device for easy access. However, you can convert this to a command line argument that can be passed in when running the program if you decide.
     - For example: `-d` or `--dataset` 
   - We also pickled our indexes, so we have  a separate command line argument for the path to the pickle files.
     - For example: `-p` or `--pickle` 
