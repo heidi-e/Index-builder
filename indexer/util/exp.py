@@ -21,7 +21,6 @@ l_index = ListIndex()
 
 # E1: Search time for existing elements
 
-@timer
 def experiment_searching(index_name, index, datasets, n_list):
     # Initialize counters for the final counts
     total_docs_indexed = 0
@@ -30,18 +29,19 @@ def experiment_searching(index_name, index, datasets, n_list):
     df = pd.DataFrame()
 
 
-    for i in range(len(datasets)):   # Loop through each dataset
-        docs_indexed = 0      # Total number of documents indexed for this dataset
-        tokens_indexed = 0    # Total number of tokens indexed for this dataset
+    for i in range(len(datasets)):  
+        docs_indexed = 0      # Total num of documents indexed for this dataset
+        tokens_indexed = 0    # Total num of tokens indexed for this dataset
+        start_time = time.time() 
 
-        for word in datasets[i]:    # Loop through each word in the dataset
+        for word in datasets[i]:   
             try:
-                list_of_articles = index.search(word)  # Search for the word in the index
+                list_of_articles = index.search(word)  
 
                 # If articles are found for the word, add to the respective counters
                 if list_of_articles:
-                    docs_indexed += len(list_of_articles)  # Number of documents for this word
-                    tokens_indexed += 1  # Count this word as indexed
+                    docs_indexed += len(list_of_articles) 
+                    tokens_indexed += 1  
 
             except KeyError:
                 # If the word isn't found in the index, continue with the next word
@@ -51,13 +51,17 @@ def experiment_searching(index_name, index, datasets, n_list):
         total_docs_indexed += docs_indexed
         total_tokens_indexed += tokens_indexed
 
+        end_time = time.time()  
+        search_time = end_time - start_time  
+
         # Final dictionary for overall counts
         overall_summary = {
             'indexing': index_name,
             'dataset': i+1,
             'n': n_list[i],
             'total_docs_indexed': total_docs_indexed,
-            'total_tokens_indexed': total_tokens_indexed
+            'total_tokens_indexed': total_tokens_indexed,
+             'search_time (in seconds)': round(search_time, 6) 
         }
 
         # Convert data to a DataFrame (one row)
@@ -66,12 +70,10 @@ def experiment_searching(index_name, index, datasets, n_list):
         # Append the new row to the DataFrame
         df = pd.concat([df, new_row], ignore_index=True)
 
-    # Return only the overall summary
     return df
 
 
 # E2: Search time for non-existing elements
-@timer
 def experiment_missing_words(index_name, index, datasets, n_list):
     """
     Identifies the number of words in datasets that are not found in the given index and records the time taken.
@@ -80,17 +82,18 @@ def experiment_missing_words(index_name, index, datasets, n_list):
     
     for i, dataset in enumerate(datasets):  
         unindexed_word_count = 0  # Counter for words not found
-        start_time = time.time()  # Start the timer
+        start_time = time.time() 
         
         for word in dataset:
             try:
-                if not index.search(word):  # If the word is not found
+                # When token is not in the search dataset
+                if not index.search(word): 
                     unindexed_word_count += 1
             except KeyError:
-                unindexed_word_count += 1  # Handle case where the word is not in the index
+                unindexed_word_count += 1  
         
-        end_time = time.time()  # End the timer
-        search_time = end_time - start_time  # Calculate the time taken
+        end_time = time.time()  
+        search_time = end_time - start_time 
         
         # Creates DataFrame for missing word count in this dataset
         dataset_df = pd.DataFrame({
@@ -98,17 +101,13 @@ def experiment_missing_words(index_name, index, datasets, n_list):
             'dataset': [i + 1],
             'n': [n_list[i]],
             'unindexed_word_count': [unindexed_word_count],
-            'search_time (in seconds)': [search_time]  # Add the time taken as a new column
+            'search_time (in seconds)': [search_time] 
         })
         
         # Append to the main DataFrame
         df = pd.concat([df, dataset_df], ignore_index=True)
     
     return df
-
-
-
-
 
 
 def find_search_data_sets(path: str):
@@ -170,13 +169,13 @@ def main():
     # Now perform search experiments
     # print("E1 Experiments")
     # df1 = experiment_searching('list', list_index, datasets, n_list)
-    # df2 = experiment_searching('hash', hash_index, datasets, n_list)
+    df2 = experiment_searching('hash', hash_index, datasets, n_list)
     # df3 = experiment_searching('avl', avl_index, datasets, n_list)
     # df4 = experiment_searching('bst', bst_index, datasets, n_list)
 
     print("E2 Experiments")
     # df1 = experiment_missing_words('list', list_index, datasets, n_list)
-    df2 = experiment_missing_words('hash', hash_index, datasets, n_list)
+    # df2 = experiment_missing_words('hash', hash_index, datasets, n_list)
     # df3 = experiment_missing_words('avl', avl_index, datasets, n_list)
     # df4 = experiment_missing_words('bst', bst_index, datasets, n_list)
 
