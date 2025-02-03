@@ -4,13 +4,10 @@ from indexer.trees.avl_tree import AVLTreeIndex
 from indexer.lists.list_index import ListIndex
 from indexer.trees.bst_index import BinarySearchTreeIndex
 from indexer.util.timer import timer
-import random
-import string
 import json
 import pickle
 import time
 import pandas as pd
-import os
 from typing import List
 
 bst_index = BinarySearchTreeIndex()

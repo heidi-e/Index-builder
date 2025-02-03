@@ -1,4 +1,3 @@
 nltk
 pytest
-timer
-nltk
+pandas
