@@ -188,6 +188,14 @@ def main():
     pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 2/list_index.pkl'
     data_directory = '/Users/mihaliskoutouvos/Downloads/compiled_datasets.json'
 
+    # Insert 100 keys first (so they exist before searching)
+    for i in range(100):
+        bst_index.insert(f"term{i}", f"value{i}")
+        avl_index.insert(f"term{i}", f"value{i}")
+        hm_index.insert(f"term{i}", f"value{i}")
+        l_index.insert(f"term{i}", f"value{i}")
+
+
     
     load_pickle_files(bst_index, pickle_data_bst, data_directory)
     load_pickle_files(avl_index, pickle_data_avl, data_directory)
