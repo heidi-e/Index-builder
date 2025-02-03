@@ -87,7 +87,16 @@ def load_index(file_path):
     print(f"Index loaded from {file_path}")
     return index
 
+def specify_dataset(index):
+    """
+    To confirm searching produces correct results
 
+    """
+    search_words = ['northeastern', 'beanpot', 'husky']
+    # search for articles with specific words
+    for word in search_words:
+        result = index.search(word)
+        print(result)
 
 
 def main():
@@ -109,13 +118,14 @@ def main():
     #bst_index = BinarySearchTreeIndex()
 
     start_time = time.time()
+
     # extract, parse, index metadata into pickled index
     index_files(list_index, args.dataset, args.pickle)
 
     end_time = time.time()
     print(f"Total indexing time: {end_time - start_time:.2f} seconds")
 
-
+    #specify_dataset(list_index)
 
     # test by loading and printing pickled data
     #index = load_index(args.pickle)
