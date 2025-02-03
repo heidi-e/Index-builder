@@ -120,6 +120,59 @@ def experiment_missing_words(index_name, index, datasets, n_list):
 #           X = Key Number
 #           Y = Number of Articles that have that phrase
 
+def create_phrase_from_dataset(dataset, n):
+    phrase = [' '.join(dataset[word:word + n]) for word in range(len(dataset) - n + 1)]
+
+    return phrase
+
+
+
+#E3 - Finding phrases (two words) in a search dataset
+def find_phrases_in_datasets(index_name, index, datasets, n_list):
+    """
+    Identifies the number of documents with the exact phrase of words
+    """
+    df = pd.DataFrame()
+    
+    for i, dataset in enumerate(datasets):  
+        phrase_with_two_w = create_phrase_from_dataset(datasets, 2)
+        phrase_with_three_w = create_phrase_from_dataset(datasets, 3)
+
+        for n, phrase in [(2, phrase_with_two_w), (3, phrase_with_three_w)]:
+            # Counter for phrases not found
+            phrase_count = 0  
+            start_time = time.time() 
+
+            for word in phrase:
+                try:
+                    phrase_result = index.search(word)
+
+                    if phrase_result:
+                        phrase_count = phrase_count + len(phrase_result)
+                except KeyError:
+                    pass
+        
+        
+        
+            end_time = time.time()  
+            search_time = end_time - start_time 
+        
+        # Creates DataFrame for missing word count in this dataset
+        dataset_df = pd.DataFrame({
+            'indexing': [index_name],
+            'dataset': [i + 1],
+            'n': [n_list[i]],
+            'unindexed_word_count': [phrase_count],
+            'search_time (in seconds)': [search_time] 
+        })
+        
+        # Append to the main DataFrame
+        df = pd.concat([df, dataset_df], ignore_index=True)
+    
+    return df
+
+
+
 
 
 def find_search_data_sets(path: str):
@@ -160,40 +213,62 @@ def main():
     # pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
     # pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
 
-    pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
-    pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
-    pickle_data_ht = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\hash_index.pkl'
-    pickle_data_l = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\list_index.pkl'
+    #pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
+    #pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
+    #pickle_data_ht = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\hash_index.pkl'
+    #pickle_data_l = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\list_index.pkl'
+
+    pickle_data_bst = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/bst_index.pkl'
+    pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/avl_index.pkl'
+    pickle_data_ht = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/hash_index.pkl'
+    pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
        
 
-    # bst_index = my_load_index(pickle_data_bst)
-    # avl_index = my_load_index(pickle_data_avl)
+    bst_index = my_load_index(pickle_data_bst)
+    avl_index = my_load_index(pickle_data_avl)
     hash_index = my_load_index(pickle_data_ht)
-    # list_index = my_load_index(pickle_data_l)
+    list_index = my_load_index(pickle_data_l)
 
 
     # data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
-    data_directory = 'C:\\Users\\lilyh\\Downloads\\experiment_data\\compiled_datasets_final.json'
+    #data_directory = 'C:\\Users\\lilyh\\Downloads\\experiment_data\\compiled_datasets_final.json'
+    data_directory = '/Users/mihaliskoutouvos/Desktop/Classes/24s-ds4300-koutouvos/practical-01-index_builder/compiled_datasets_final.json'
 
     # make a list of all the words from search data sets
     datasets, n_list = find_search_data_sets(data_directory)
 
+    
+
     # Now perform search experiments
     # print("E1 Experiments")
     # df1 = experiment_searching('list', list_index, datasets, n_list)
-    df2 = experiment_searching('hash', hash_index, datasets, n_list)
+    #df2 = experiment_searching('hash', hash_index, datasets, n_list)
     # df3 = experiment_searching('avl', avl_index, datasets, n_list)
     # df4 = experiment_searching('bst', bst_index, datasets, n_list)
 
-    print("E2 Experiments")
+    #print("E2 Experiments")
     # df1 = experiment_missing_words('list', list_index, datasets, n_list)
     # df2 = experiment_missing_words('hash', hash_index, datasets, n_list)
     # df3 = experiment_missing_words('avl', avl_index, datasets, n_list)
     # df4 = experiment_missing_words('bst', bst_index, datasets, n_list)
 
+    print("E3 Experiments")
+    #df1 = experiment_missing_words('list', list_index, datasets, n_list)
+    #df2 = experiment_missing_words('hash', hash_index, datasets, n_list)
+    #df3 = experiment_missing_words('avl', avl_index, datasets, n_list)
+    #df4 = experiment_missing_words('bst', bst_index, datasets, n_list)
+
+    df1 = find_phrases_in_datasets('list', list_index, datasets, n_list)
+    df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list)
+    df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list)
+    df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list)
+
 
     # df_combined = pd.concat([df2, df4], axis=0)
+    #print(df1)
     print(df2)
+    #print(df3)
+    #print(df4)
 
     #experiment_search_existing(avl_index, datasets)
     #experiment_search_existing(hm_index, datasets)
