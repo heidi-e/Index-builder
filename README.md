@@ -4,6 +4,8 @@
 Heidi Eren, Lily Hoffman, and Mihalis Koutouvos
 
 ## Running Program: 
+- In order to run the program, please clone the repository and proceed with the following steps: 
+
 ### Python Environment
 
 - Our implementation runs with Python 3.11. To create a new conda environment with python 3.11, run the following:
