@@ -8,6 +8,7 @@ import random
 import string
 import json
 import pickle
+import time
 import pandas as pd
 import os
 from typing import List
@@ -73,12 +74,13 @@ def experiment_searching(index_name, index, datasets, n_list):
 @timer
 def experiment_missing_words(index_name, index, datasets, n_list):
     """
-    Identifies the number of words in datasets that are not found in the given index.
+    Identifies the number of words in datasets that are not found in the given index and records the time taken.
     """
     df = pd.DataFrame()
     
-    for i, dataset in enumerate(datasets):  # Loop through each dataset
+    for i, dataset in enumerate(datasets):  
         unindexed_word_count = 0  # Counter for words not found
+        start_time = time.time()  # Start the timer
         
         for word in dataset:
             try:
@@ -86,12 +88,17 @@ def experiment_missing_words(index_name, index, datasets, n_list):
                     unindexed_word_count += 1
             except KeyError:
                 unindexed_word_count += 1  # Handle case where the word is not in the index
+        
+        end_time = time.time()  # End the timer
+        search_time = end_time - start_time  # Calculate the time taken
+        
         # Creates DataFrame for missing word count in this dataset
         dataset_df = pd.DataFrame({
             'indexing': [index_name],
             'dataset': [i + 1],
             'n': [n_list[i]],
-            'unindexed_word_count': [unindexed_word_count]
+            'unindexed_word_count': [unindexed_word_count],
+            'search_time (in seconds)': [search_time]  # Add the time taken as a new column
         })
         
         # Append to the main DataFrame
