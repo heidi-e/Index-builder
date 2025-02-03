@@ -54,7 +54,7 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
    - title
    - source URL's domain name (cnn.com, reuters.com, etc.)
    - author's last name if present
-5. We proceeded to generate around 9 searching data sets of varying sizes, each with the following components:
+5. We proceeded to generate 8 searching data sets of varying sizes, each with the following components:
    - **Component A**: a random sample of _n_ terms/tokens currently in the index (n should be a multiple of 4 and >= 4000),
    - **Component B**: an additional _(n/4)_ 2- and 3-word phrases added to the search set by randomly selecting 2 or 3 tokens from Component A and adding them to the searching data set,
    - **Component C**: an addition of _n_ randomly generated strings of characters that are unlikely to be in the index, and
@@ -66,9 +66,14 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
 - File Storage/Locations:
   
   - None of our datasets are in our repo for the sake of saving storage and time. Instead, we stored our indexed one in a pickle file for use in the experiments. 
-  - Our pickle files are also not in the repo for similar reason. The path to the root folder of the dataset is currently a variable in `assign_01.py`. You should convert this to a command line argument that can be passed in when running the program.
+  - Our pickle files are also not in the repo for similar reason. They are stored locally and called through the local path containing the root folder of the datasets. You should convert this to a command line argument that can be passed in when running the program.
     - For example: `-d` or `--dataset` 
-  - We also pickled our indexes, so we have  a separate command line argument for the path to the pickle files.
+  - We also pickled our indexes, so we have a separate command line argument for the path to save the pickle files.
     - For example: `-p` or `--pickle` 
-
+  - Navigate to the project root directory then run the search function module from the command line, specifying the dataset directory and the output path for the pickled index.
+    - `python -m indexer.util.search_function -d /path/to/dataset -p /path/to/output/index.pkl`
+  
+  - To create the search data sets and save into a json file, run the script from the command line. 
+    - `python -m indexer.util.search_data_set`
+    
 - Each of the data structures inherit from a common interface of functionality in `indexer.abstract_index.AbstractIndex`. 

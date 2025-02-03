@@ -70,8 +70,8 @@ def reformat_dataset(index, search_data_set, n, time, count):
 
     json_dataset = {
         count: {
-            'indexing_structure': index,
             'dataset': search_data_set,
+            'indexing_structure': index,
             'n': n,
             'time': time
         }
@@ -100,9 +100,8 @@ def main():
     # generate searching data set
     #search_data_set = create_search_data_set(index_data, n)
 
-    #indexing_list = ['hash', 'avl', 'list', 'bst']
+    indexing_list = ['hash', 'avl', 'list', 'bst']
 
-    indexing_list = ['hash', 'bst']
 
     # set file path to save compiled doc
     file_path = "compiled_datasets.json"
@@ -116,7 +115,7 @@ def main():
 
 
     # generate data sets and compile them into one json file
-    for i in range(4):
+    for i in range(8):
 
         start_time = time.time()
         # generate a random sample n to token
