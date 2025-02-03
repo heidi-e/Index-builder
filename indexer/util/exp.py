@@ -10,16 +10,12 @@ import json
 import pickle
 import pandas as pd
 import os
+from typing import List
 
 bst_index = BinarySearchTreeIndex()
 avl_index = AVLTreeIndex()
 hm_index = HashMapIndex()
 l_index = ListIndex()
-
-
-# Generate random strings
-def generate_random_string(length):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 
 # E1: Search time for existing elements
@@ -73,26 +69,39 @@ def experiment_searching(index_name, index, datasets, n_list):
     return df
 
 
-
-
-
-
 # E2: Search time for non-existing elements
 @timer
-def experiment_search_non_existing(index, n):
-    articles_passed = set()
-    tokens = 0
-    search_times = []
+def experiment_missing_words(index_name, index, datasets, n_list):
+    """
+    Identifies the number of words in datasets that are not found in the given index.
+    """
+    df = pd.DataFrame()
+    
+    for i, dataset in enumerate(datasets):  # Loop through each dataset
+        unindexed_word_count = 0  # Counter for words not found
+        
+        for word in dataset:
+            try:
+                if not index.search(word):  # If the word is not found
+                    unindexed_word_count += 1
+            except KeyError:
+                unindexed_word_count += 1  # Handle case where the word is not in the index
+        # Creates DataFrame for missing word count in this dataset
+        dataset_df = pd.DataFrame({
+            'indexing': [index_name],
+            'dataset': [i + 1],
+            'n': [n_list[i]],
+            'unindexed_word_count': [unindexed_word_count]
+        })
+        
+        # Append to the main DataFrame
+        df = pd.concat([df, dataset_df], ignore_index=True)
+    
+    return df
 
-    for i in range(n):
-        term = f"non_existing_term{i}"
-        try:
-            search_time = index.search(term)
-            search_times.append(search_time)
-        except KeyError:
-            pass
 
-    print(articles_passed, tokens)
+
+
 
 
 def find_search_data_sets(path: str):
@@ -128,34 +137,45 @@ def my_load_index(file_path):
 
 def main():
 
-    pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
-    pickle_data_avl = '/Users/Heidi/Downloads/final_pickles/avl_index.pkl'
-    pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
-    pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
+    # pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
+    # pickle_data_avl = '/Users/Heidi/Downloads/final_pickles/avl_index.pkl'
+    # pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
+    # pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
 
+    pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
+    pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
+    pickle_data_ht = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\hash_index.pkl'
+    pickle_data_l = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\list_index.pkl'
+       
 
-    bst_index = my_load_index(pickle_data_bst)
-    avl_index = my_load_index(pickle_data_avl)
+    # bst_index = my_load_index(pickle_data_bst)
+    # avl_index = my_load_index(pickle_data_avl)
     hash_index = my_load_index(pickle_data_ht)
-    list_index = my_load_index(pickle_data_l)
+    # list_index = my_load_index(pickle_data_l)
 
 
-    data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
+    # data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
+    data_directory = 'C:\\Users\\lilyh\\Downloads\\experiment_data\\compiled_datasets_final.json'
 
     # make a list of all the words from search data sets
     datasets, n_list = find_search_data_sets(data_directory)
 
     # Now perform search experiments
-    print("E1 Experiments")
-    df1 = experiment_searching('list', list_index, datasets, n_list)
-    df2 = experiment_searching('hash', hash_index, datasets, n_list)
+    # print("E1 Experiments")
+    # df1 = experiment_searching('list', list_index, datasets, n_list)
+    # df2 = experiment_searching('hash', hash_index, datasets, n_list)
+    # df3 = experiment_searching('avl', avl_index, datasets, n_list)
+    # df4 = experiment_searching('bst', bst_index, datasets, n_list)
 
-    df3 = experiment_searching('avl', avl_index, datasets, n_list)
-    df4 = experiment_searching('bst', bst_index, datasets, n_list)
+    print("E2 Experiments")
+    # df1 = experiment_missing_words('list', list_index, datasets, n_list)
+    df2 = experiment_missing_words('hash', hash_index, datasets, n_list)
+    # df3 = experiment_missing_words('avl', avl_index, datasets, n_list)
+    # df4 = experiment_missing_words('bst', bst_index, datasets, n_list)
 
 
-    df_combined = pd.concat([df1, df2, df3, df4], axis=0)
-    print(df_combined)
+    # df_combined = pd.concat([df2, df4], axis=0)
+    print(df2)
 
     #experiment_search_existing(avl_index, datasets)
     #experiment_search_existing(hm_index, datasets)
