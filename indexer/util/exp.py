@@ -301,35 +301,5 @@ def main():
     combined_df.to_excel('lily_merged_experiments.xlsx', index=False)
 
 
-    
-    #print(df3)
-    #print(df4)
-
-    #experiment_search_existing(avl_index, datasets)
-    #experiment_search_existing(hm_index, datasets)
-    #experiment_search_existing(l_index, datasets)
-'''
-    # Now perform search experiments
-    print("E2 Experiments")
-    experiment_search_non_existing(bst_index, 100)
-    experiment_search_non_existing(avl_index, 100)
-    experiment_search_non_existing(hm_index, 100)
-    experiment_search_non_existing(l_index, 100)'''
-
-
-if __name__ == "__main__":
-    main()
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     main()
