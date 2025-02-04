@@ -1,4 +1,4 @@
-# DS4300 - Spring 2025 - Practical #1 - Index It
+# DS4300 - Spring 2025 - Practical #1 - Index Builder
 
 ## Group: 
 Heidi Eren, Lily Hoffman, and Mihalis Koutouvos
@@ -22,17 +22,15 @@ pip install -r requirements.txt
 
 - The above steps should allow you to run the program successfully. Also, to run commands, please use the terminal system rather than clicking run. We used VSCode for our program.
 
-- To run experiments, type the following in so that 
-
 ## Assignment Overview: 
 
 ### Scenario (Hypothetical):
 
-You're working for a researcher who is trying to build a specialized search engine over a large corpus of documents. The researcher ultimately need a fast way to search through thousands of documents for specific words or phrases and the total number of documents that contain the word or phrase and total number of pre-processed words in those documents.
+You're working for a researcher who is trying to build a specialized search engine over a large corpus of documents. The researcher ultimately needs a fast way to search through thousands of documents for specific words or phrases and the total number of documents that contain the word or phrase and total number of pre-processed words in those documents.
 
 The first step is to evaluate the performance of several different in-memory indexing data structures so that you can make an informed decision on which data structure to use. The researcher has provided you with a dataset of news articles and asked you to evaluate the performance of the data structures with respect to searching.
 
-Good news - you'll benefit from the work of the previous research assistant who just accepted a co-op. The had already implemented the bulk of the BST, a portion of the AVL tree, and has set up a repository already!
+Good news - you'll benefit from the work of the previous research assistant who just accepted a co-op. They had already implemented the bulk of the BST, a portion of the AVL tree, and has set up a repository already!
 
 ### Due Dates:
 - EC Due Date: February 2nd, 2025 @ 11:59pm
@@ -49,7 +47,7 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
 
 
 ## Implementation Procedure:
-1. My group started off by doing one of the data structures a person. 
+1. Our group started off by doing one of the data structures a person. 
 2. From here, we decided to set up the info for the experiments and also start the indexing process via crawling the folders, extracting relevant metadata such as `preprocessed_text`.
 3. As we went about parsing, our function stored each word in the index structure we were testing along with its filename. 
 4. The following metadata was manipulated:
@@ -78,4 +76,6 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
   - To create the search data sets and save into a json file, run the script from the command line. 
     - `python -m indexer.util.search_data_set`
     
-- Each of the data structures inherit from a common interface of functionality in `indexer.abstract_index.AbstractIndex`. 
+- Each of the data structures inherit from a common interface of functionality in `indexer.abstract_index.AbstractIndex`.
+
+- To run our experiments, type the follow `python -m indexer.util.exp `
