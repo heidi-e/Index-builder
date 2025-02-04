@@ -1,9 +1,5 @@
 from typing import Optional, Any, List, Generator
-
-
 from indexer.abstract_index import AbstractIndex
-
-
 
 
 class ListIndex(AbstractIndex):
@@ -34,34 +30,26 @@ class ListIndex(AbstractIndex):
         """
         Inserts a key-value pair into the index.
         If the key already exists, the value is appended to its list.
-
-        Input: Key-value pair
-        Returns: None
         """
 
-        # entry is key-value pair
         for entry in self.list_index:
             if entry[0] == key:
                 entry[1].append(value)
-                return
-        # If key is not found, add a new entry
-        self.list_index.append((key, [value]))
+                
+        return self.list_index.append((key, [value]))
 
     def search(self, key: Any) -> List[Any]:
         """
         Searches for values associated with the given key.
         Returns a list of values, or an empty list if the key is not found.
         """
-        # parse through list to see if key matches entry in list
         values = []
         for entry in self.list_index:
             if entry[0] == key:
                 values.extend(entry[1])
 
-        # if key does not exist in list, flag an error
         if not values:
             return []
-
 
         return values
 
@@ -81,8 +69,6 @@ class ListIndex(AbstractIndex):
     def get_avg_value_list_len(self) -> float:
         """
         Calculates the average number of values stored per key.
-
-        Returns: float
         """
         if not self.list_index:
             return 0.0
@@ -92,5 +78,4 @@ class ListIndex(AbstractIndex):
         return total_values / len(self.list_index)
 
     def __iter__(self):
-        # This makes ListIndex iterable (can be looped over in a for loop)
         return iter(self.list_index)

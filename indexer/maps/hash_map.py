@@ -2,6 +2,14 @@ from indexer.abstract_index import AbstractIndex
 
 
 class HashMapIndex(AbstractIndex):
+    '''
+    A HashMap-based implementation of an index that maps a key (term) to a set of document IDs.
+
+    The HashMapIndex class uses an internal dictionary (`hash_map`) to store terms as keys and 
+    their associated document IDs as sets of values. It provides methods to add, search, 
+    remove terms, and iterate over the terms stored in the index. It also includes an alias 
+    for the `add` method called `insert` for compatibility with other indexing systems. 
+    '''
 
     def __init__(self):
         super().__init__()
