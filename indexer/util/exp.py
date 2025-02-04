@@ -233,10 +233,10 @@ def main():
     # pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
 
 
-    bst_index = my_load_index(pickle_data_bst)
-    avl_index = my_load_index(pickle_data_avl)
-    hash_index = my_load_index(pickle_data_ht)
-    list_index = my_load_index(pickle_data_l)
+    # bst_index = my_load_index(pickle_data_bst)
+    # avl_index = my_load_index(pickle_data_avl)
+    # hash_index = my_load_index(pickle_data_ht)
+    # list_index = my_load_index(pickle_data_l)
 
 
     # data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
@@ -281,14 +281,26 @@ def main():
     # df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list)
     # df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list)
 
-    df1 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'Intel i5', 16)
-    df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'Intel i5', 16)
-    df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'Intel i5', 16)
-    df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'Intel i5', 16)
-#
-    # print(df2)
-    df_combined = pd.concat([df1, df2, df3, df4], axis=0)
-    df_combined.to_excel('output_exp3.xlsx', index=False, sheet_name='sheet1')
+#     df1 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'Intel i5', 16)
+#     df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'Intel i5', 16)
+#     df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'Intel i5', 16)
+#     df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'Intel i5', 16)
+# #
+#     # print(df2)
+#     df_combined = pd.concat([df1, df2, df3, df4], axis=0)
+#     df_combined.to_excel('output_exp3.xlsx', index=False, sheet_name='sheet1')
+
+
+    # Read the Excel files into dataframes
+    df1 = pd.read_excel('indexer/util/data/output_exp1.xlsx')
+    df2 = pd.read_excel('indexer/util/data/output_exp2.xlsx')
+    df3 = pd.read_excel('indexer/util/data/output_exp3.xlsx')
+
+    combined_df = pd.concat([df1, df2, df3], ignore_index=True)
+
+    combined_df.to_excel('lily_merged_experiments.xlsx', index=False)
+
+
     
     #print(df3)
     #print(df4)
