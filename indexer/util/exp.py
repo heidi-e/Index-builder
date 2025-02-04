@@ -141,6 +141,8 @@ def find_phrases_in_datasets(index_name, index, datasets, n_list, run_id, comput
         total_docs_indexed = 0
         total_tokens_indexed = 0
 
+        start_time = time.time()
+
         # make a list of phrases from search datasets
         multiple_words = [item for item in datasets[i] if ' ' in item]
 
@@ -151,7 +153,7 @@ def find_phrases_in_datasets(index_name, index, datasets, n_list, run_id, comput
             # only search for words in the phrase
             for word in words:
 
-                start_time = time.time()
+
                 try:
                     list_of_articles = index.search(word)
 
@@ -243,10 +245,10 @@ def main():
     # pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
 
 
-    bst_index = load_index(pickle_data_bst)
-    avl_index = load_index(pickle_data_avl)
+    #bst_index = load_index(pickle_data_bst)
+    #avl_index = load_index(pickle_data_avl)
     hash_index = load_index(pickle_data_ht)
-    list_index = load_index(pickle_data_l)
+    #list_index = load_index(pickle_data_l)
 
 
     data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
@@ -276,13 +278,13 @@ def main():
     # df4 = experiment_missing_words('bst', bst_index, datasets, n_list, 2, 'Intel i5', 16)
 
     print("E3 Experiments")
-    df1 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'M2', 16)
+    #df1 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'M2', 16)
     df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'M2', 16)
-    df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'M2', 16)
-    df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'M2', 16)
-
-    df_combined = pd.concat([df1, df2, df3, df4], axis=0)
-    df_combined.to_excel('output_exp3.xlsx', index=False, sheet_name='sheet1')
+    #df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'M2', 16)
+    #df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'M2', 16)
+    print(df2)
+    #df_combined = pd.concat([df1, df2, df3, df4], axis=0)
+    #df_combined.to_excel('output_exp3.xlsx', index=False, sheet_name='sheet1')
 
     # df1 = experiment_missing_words('list', list_index, datasets, n_list, 3, 'Intel i5', 16)
     # df2 = experiment_missing_words('hash', hash_index, datasets, n_list, 3, 'Intel i5', 16)
