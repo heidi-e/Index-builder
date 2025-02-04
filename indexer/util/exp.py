@@ -43,7 +43,7 @@ def experiment_searching(index_name, index, datasets, n_list, run_id, compute_pr
                 # If articles are found for the word, add to the respective counters
                 if list_of_articles:
                     docs_indexed += len(list_of_articles) 
-                    tokens_indexed += 1  
+                    tokens_indexed += 1
 
             except KeyError:
                 # If the word isn't found in the index, continue with the next word
@@ -88,12 +88,18 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
     
     for i, dataset in enumerate(datasets):  
         unindexed_word_count = 0  # Counter for words not found
+        docs_indexed = 0
         start_time = time.time() 
         
         for word in dataset:
             try:
-                # When token is not in the search dataset
-                if not index.search(word):
+                # search for word in index
+                list_of_articles = index.search(word)
+                # count number of docs indexed
+                if list_of_articles:
+                    docs_indexed += len(list_of_articles)
+                else:
+                    # When token is not in the search dataset
                     unindexed_word_count += 1
             except KeyError:
                 unindexed_word_count += 1
@@ -101,6 +107,8 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
         end_time = time.time()  
         search_time = end_time - start_time
         search_time_ns = int(search_time * 1e9)
+
+
         
         # Creates DataFrame for missing word count in this dataset
         dataset_df = pd.DataFrame({
@@ -109,7 +117,7 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
             'primary_memory_size': primary_memory_size,
             'index_type': [index_name],
             'dataset': [i + 1],
-            'num_docs_indexed': 0,
+            'num_docs_indexed': docs_indexed,
             'num_tokens_indexed': [unindexed_word_count],
             'search_set_base_size': [n_list[i]],
             'search_time': [search_time_ns]
@@ -245,10 +253,10 @@ def main():
     # pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
 
 
-    #bst_index = load_index(pickle_data_bst)
-    #avl_index = load_index(pickle_data_avl)
+    bst_index = load_index(pickle_data_bst)
+    avl_index = load_index(pickle_data_avl)
     hash_index = load_index(pickle_data_ht)
-    #list_index = load_index(pickle_data_l)
+    list_index = load_index(pickle_data_l)
 
 
     data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
@@ -259,32 +267,41 @@ def main():
     datasets, n_list = find_search_data_sets(data_directory)
 
     # Now perform search experiments
-    # print("E1 Experiments")
-    #df1 = experiment_searching('list', list_index, datasets, n_list, 1, 'M2', 16)
-    #df2 = experiment_searching('hash', hash_index, datasets, n_list, 1, 'M2', 16)
-    #df3 = experiment_searching('avl', avl_index, datasets, n_list, 1, 'M2', 16)
-    #df4 = experiment_searching('bst', bst_index, datasets, n_list, 1, 'M2', 16)
+    print("E1 Experiments")
+    df1_1 = experiment_searching('list', list_index, datasets, n_list, 1, 'M2', 16)
+    df2_1 = experiment_searching('hash', hash_index, datasets, n_list, 1, 'M2', 16)
+    df3_1 = experiment_searching('avl', avl_index, datasets, n_list, 1, 'M2', 16)
+    df4_1 = experiment_searching('bst', bst_index, datasets, n_list, 1, 'M2', 16)
 
+    exp_1_df_combined = pd.concat([df1_1, df2_1, df3_1, df4_1], axis=0)
 
-    #print("E2 Experiments")
-    # df1 = experiment_missing_words('list', list_index, datasets, n_list)
-    # df2 = experiment_missing_words('hash', hash_index, datasets, n_list)
-    # df3 = experiment_missing_words('avl', avl_index, datasets, n_list)
-    # df4 = experiment_missing_words('bst', bst_index, datasets, n_list)
+    print("E2 Experiments")
+    df1_2 = experiment_missing_words('list', list_index, datasets, n_list, 2, 'M2', 16)
+    df2_2 = experiment_missing_words('hash', hash_index, datasets, n_list, 2, 'M2', 16)
+    df3_2 = experiment_missing_words('avl', avl_index, datasets, n_list, 2, 'M2', 16)
+    df4_2 = experiment_missing_words('bst', bst_index, datasets, n_list, 2, 'M2', 16)
 
-    # df1 = experiment_missing_words('list', list_index, datasets, n_list, 2, 'Intel i5', 16)
-    # df2 = experiment_missing_words('hash', hash_index, datasets, n_list, 2, 'Intel i5', 16)
-    # df3 = experiment_missing_words('avl', avl_index, datasets, n_list, 2, 'Intel i5', 16)
-    # df4 = experiment_missing_words('bst', bst_index, datasets, n_list, 2, 'Intel i5', 16)
+    exp_2_df_combined = pd.concat([df1_2, df2_2, df3_2, df4_2], axis=0)
+
 
     print("E3 Experiments")
-    #df1 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'M2', 16)
-    df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'M2', 16)
-    #df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'M2', 16)
-    #df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'M2', 16)
-    print(df2)
-    #df_combined = pd.concat([df1, df2, df3, df4], axis=0)
-    #df_combined.to_excel('output_exp3.xlsx', index=False, sheet_name='sheet1')
+    df1_3 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'M2', 16)
+    df2_3 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'M2', 16)
+    df3_3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'M2', 16)
+    df4_3 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'M2', 16)
+    exp_3_df_combined = pd.concat([df1_3, df2_3, df3_3, df4_3], axis=0)
+
+
+    print('Created dataframes for all indexing structures.')
+
+
+    print('Concat everything...')
+    final_df_combined = pd.concat([exp_1_df_combined, exp_2_df_combined, exp_3_df_combined], axis=0)
+    final_df_combined.to_excel('timing_data.xlsx', index=False, sheet_name='sheet1')
+    final_df_combined.to_csv('timing_data.csv', index=False)
+
+
+
 
     # df1 = experiment_missing_words('list', list_index, datasets, n_list, 3, 'Intel i5', 16)
     # df2 = experiment_missing_words('hash', hash_index, datasets, n_list, 3, 'Intel i5', 16)
