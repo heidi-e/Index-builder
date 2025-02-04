@@ -59,15 +59,15 @@ def experiment_searching(index_name, index, datasets, n_list, run_id, compute_pr
 
         # Final dictionary for overall counts
         overall_summary = {
-            'indexing': index_name,
+            'run_id': run_id,
+            'compute_proc_type': compute_proc_type,
+            'primary_memory_size': primary_memory_size,
+            'index_type': index_name,
             'dataset': i+1,
-            'n': n_list[i],
-            'total_docs_indexed': total_docs_indexed,
-            'total_tokens_indexed': total_tokens_indexed,
-             'search_time': search_time_ns,
-             'run_id': run_id,
-             'compute_proc_type': compute_proc_type,
-             'primary_memory_size': primary_memory_size
+            'num_docs_indexed': total_docs_indexed,
+            'num_tokens_indexed': total_tokens_indexed,
+            'search_set_base_size': n_list[i],
+            'search_time': search_time_ns
         }
 
         # Convert data to a DataFrame (one row)
@@ -93,10 +93,10 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
         for word in dataset:
             try:
                 # When token is not in the search dataset
-                if not index.search(word): 
+                if not index.search(word):
                     unindexed_word_count += 1
             except KeyError:
-                unindexed_word_count += 1  
+                unindexed_word_count += 1
         
         end_time = time.time()  
         search_time = end_time - start_time
@@ -104,14 +104,15 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
         
         # Creates DataFrame for missing word count in this dataset
         dataset_df = pd.DataFrame({
-            'indexing': [index_name],
-            'dataset': [i + 1],
-            'n': [n_list[i]],
-            'unindexed_word_count': [unindexed_word_count],
-            'search_time': [search_time_ns],
             'run_id': run_id,
-             'compute_proc_type': compute_proc_type,
-             'primary_memory_size': primary_memory_size 
+            'compute_proc_type': compute_proc_type,
+            'primary_memory_size': primary_memory_size,
+            'index_type': [index_name],
+            'dataset': [i + 1],
+            'num_docs_indexed': 0,
+            'num_tokens_indexed': [unindexed_word_count],
+            'search_set_base_size': [n_list[i]],
+            'search_time': [search_time_ns]
         })
         
         # Append to the main DataFrame
@@ -139,9 +140,9 @@ def find_phrases_in_datasets(index_name, index, datasets, n_list, run_id, comput
         # reset total counts of docs and tokens
         total_docs_indexed = 0
         total_tokens_indexed = 0
-        
+
+        # make a list of phrases from search datasets
         multiple_words = [item for item in datasets[i] if ' ' in item]
-        print(len(multiple_words))
 
         #Iterate through each word in the strings with multiple words
         for phrase in multiple_words:
@@ -174,15 +175,15 @@ def find_phrases_in_datasets(index_name, index, datasets, n_list, run_id, comput
 
         # Final dictionary for overall counts
         overall_summary = {
-            'indexing': index_name,
-            'dataset': i+1,
-            'n': n_list[i],
-            'total_docs_indexed': total_docs_indexed,
-            'total_tokens_indexed': total_tokens_indexed,
-             'search_time': search_time_ns,
             'run_id': run_id,
-             'compute_proc_type': compute_proc_type,
-             'primary_memory_size': primary_memory_size
+            'compute_proc_type': compute_proc_type,
+            'primary_memory_size': primary_memory_size,
+            'index_type': index_name,
+            'dataset': i+1,
+            'num_docs_indexed': total_docs_indexed,
+            'num_tokens_indexed': total_tokens_indexed,
+            'search_set_base_size': n_list[i],
+            'search_time': search_time_ns
         }
 
         # Convert data to a DataFrame (one row)
@@ -226,10 +227,10 @@ def load_index(file_path):
 
 def main():
 
-    #pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
+    pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
     pickle_data_avl = '/Users/Heidi/Downloads/final_pickles/avl_index.pkl'
-    #pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
-    #pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
+    pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
+    pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
 
     #pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
     #pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
@@ -242,10 +243,10 @@ def main():
     # pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
 
 
-    #bst_index = load_index(pickle_data_bst)
+    bst_index = load_index(pickle_data_bst)
     avl_index = load_index(pickle_data_avl)
-    #hash_index = load_index(pickle_data_ht)
-    #list_index = load_index(pickle_data_l)
+    hash_index = load_index(pickle_data_ht)
+    list_index = load_index(pickle_data_l)
 
 
     data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
@@ -257,11 +258,10 @@ def main():
 
     # Now perform search experiments
     # print("E1 Experiments")
-    # df1 = experiment_searching('list', list_index, datasets, n_list, 1, 'Intel i5', 16)
-    # df2 = experiment_searching('hash', hash_index, datasets, n_list, 1, 'Intel i5', 16)
-    df3 = experiment_searching('avl', avl_index, datasets, n_list, 1, 'M2', 16)
-    print(df3)
-    # df4 = experiment_searching('bst', bst_index, datasets, n_list, 1, 'Intel i5', 16)
+    #df1 = experiment_searching('list', list_index, datasets, n_list, 1, 'M2', 16)
+    #df2 = experiment_searching('hash', hash_index, datasets, n_list, 1, 'M2', 16)
+    #df3 = experiment_searching('avl', avl_index, datasets, n_list, 1, 'M2', 16)
+    #df4 = experiment_searching('bst', bst_index, datasets, n_list, 1, 'M2', 16)
 
 
     #print("E2 Experiments")
@@ -276,11 +276,13 @@ def main():
     # df4 = experiment_missing_words('bst', bst_index, datasets, n_list, 2, 'Intel i5', 16)
 
     print("E3 Experiments")
-    #df1 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'Intel i5', 16)
-    #df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'Intel i5', 16)
-    #df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'M2', 16)
+    df1 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'M2', 16)
+    df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'M2', 16)
+    df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'M2', 16)
+    df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'M2', 16)
 
-    #df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'Intel i5', 16)
+    df_combined = pd.concat([df1, df2, df3, df4], axis=0)
+    df_combined.to_excel('output_exp3.xlsx', index=False, sheet_name='sheet1')
 
     # df1 = experiment_missing_words('list', list_index, datasets, n_list, 3, 'Intel i5', 16)
     # df2 = experiment_missing_words('hash', hash_index, datasets, n_list, 3, 'Intel i5', 16)
@@ -310,37 +312,6 @@ def main():
     #combined_df = pd.concat([df1, df2, df3], ignore_index=True)
 
     #combined_df.to_excel('lily_merged_experiments.xlsx', index=False)
-
-
-    
-    #print(df3)
-    #print(df4)
-
-    #experiment_search_existing(avl_index, datasets)
-    #experiment_search_existing(hm_index, datasets)
-    #experiment_search_existing(l_index, datasets)
-'''
-    # Now perform search experiments
-    print("E2 Experiments")
-    experiment_search_non_existing(bst_index, 100)
-    experiment_search_non_existing(avl_index, 100)
-    experiment_search_non_existing(hm_index, 100)
-    experiment_search_non_existing(l_index, 100)'''
-
-
-if __name__ == "__main__":
-    main()
-
-
-
-
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     main()
