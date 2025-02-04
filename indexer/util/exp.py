@@ -237,20 +237,20 @@ def load_index(file_path):
 
 def main():
 
-    pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
-    pickle_data_avl = '/Users/Heidi/Downloads/final_pickles/avl_index.pkl'
-    pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
-    pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
+    #pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
+    #pickle_data_avl = '/Users/Heidi/Downloads/final_pickles/avl_index.pkl'
+    #pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
+    #pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
 
     #pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
     #pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
     #pickle_data_ht = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\hash_index.pkl'
     #pickle_data_l = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\list_index.pkl'
 
-    # pickle_data_bst = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/bst_index.pkl'
-    # pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/avl_index.pkl'
-    # pickle_data_ht = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/hash_index.pkl'
-    # pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
+    pickle_data_bst = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/bst_index.pkl'
+    pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/avl_index.pkl'
+    pickle_data_ht = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/hash_index.pkl'
+    pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
 
 
     bst_index = load_index(pickle_data_bst)
@@ -259,9 +259,9 @@ def main():
     list_index = load_index(pickle_data_l)
 
 
-    data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
+    #data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
     #data_directory = 'C:\\Users\\lilyh\\Downloads\\experiment_data\\compiled_datasets_final.json'
-    # data_directory = '/Users/mihaliskoutouvos/Desktop/Classes/24s-ds4300-koutouvos/practical-01-index_builder/compiled_datasets_final.json'
+    data_directory = '/Users/mihaliskoutouvos/Desktop/Classes/24s-ds4300-koutouvos/practical-01-index_builder/compiled_datasets_final.json'
 
     # make a list of all the words from search data sets
     datasets, n_list = find_search_data_sets(data_directory)
