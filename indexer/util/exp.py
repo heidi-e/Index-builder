@@ -43,7 +43,7 @@ def experiment_searching(index_name, index, datasets, n_list, run_id, compute_pr
                 # If articles are found for the word, add to the respective counters
                 if list_of_articles:
                     docs_indexed += len(list_of_articles) 
-                    tokens_indexed += 1  
+                    tokens_indexed += 1
 
             except KeyError:
                 # If the word isn't found in the index, continue with the next word
@@ -88,12 +88,18 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
     
     for i, dataset in enumerate(datasets):  
         unindexed_word_count = 0  # Counter for words not found
+        docs_indexed = 0
         start_time = time.time() 
         
         for word in dataset:
             try:
-                # When token is not in the search dataset
-                if not index.search(word):
+                # search for word in index
+                list_of_articles = index.search(word)
+                # count number of docs indexed
+                if list_of_articles:
+                    docs_indexed += len(list_of_articles)
+                else:
+                    # When token is not in the search dataset
                     unindexed_word_count += 1
             except KeyError:
                 unindexed_word_count += 1
@@ -101,6 +107,8 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
         end_time = time.time()  
         search_time = end_time - start_time
         search_time_ns = int(search_time * 1e9)
+
+
         
         # Creates DataFrame for missing word count in this dataset
         dataset_df = pd.DataFrame({
@@ -109,7 +117,7 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
             'primary_memory_size': primary_memory_size,
             'index_type': [index_name],
             'dataset': [i + 1],
-            'num_docs_indexed': 0,
+            'num_docs_indexed': docs_indexed,
             'num_tokens_indexed': [unindexed_word_count],
             'search_set_base_size': [n_list[i]],
             'search_time': [search_time_ns]
