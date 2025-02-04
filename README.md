@@ -1,4 +1,4 @@
-# DS4300 - Spring 2025 - Practical #1 - Index It
+# DS4300 - Spring 2025 - Practical #1 - Index Builder
 
 ## Group: 
 Heidi Eren, Lily Hoffman, and Mihalis Koutouvos
