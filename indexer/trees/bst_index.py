@@ -175,6 +175,7 @@ class BinarySearchTreeIndex(AbstractIndex):
             List[Any]: A list of values associated with the key. If the key is not found, an empty list is returned.
         """
         return self._search_recursive(self.root, key)
+
     
     def count_nodes(self) -> int:
         """

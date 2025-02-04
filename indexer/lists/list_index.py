@@ -89,7 +89,7 @@ class ListIndex(AbstractIndex):
 
         total_values = sum(len(entry[1]) for entry in self.list_index)
 
-        return total_values / len(self.index)
+        return total_values / len(self.list_index)
 
     def __iter__(self):
         # This makes ListIndex iterable (can be looped over in a for loop)

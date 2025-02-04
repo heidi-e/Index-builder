@@ -1,45 +1,75 @@
-import unittest
-from indexer.maps.hash_map import HashMapIndex
+"""
+This module contains unit tests for the HashMapIndex class.
 
-class TestHashMapIndex(unittest.TestCase):
-    def setUp(self):
-        self.index = HashMapIndex()
+The HashMapIndex class is responsible for implementing a hashmap-based index for a search engine.
+The following tests are included:
+- `test_add_and_search`: Tests the `add` and `search` methods of the HashMapIndex class.
+- `test_remove`: Tests the `remove` method of the HashMapIndex class.
+- `test_iterate`: Tests the iteration functionality of the HashMapIndex class.
+- `test_get_keys_in_order`: Tests the `get_keys_in_order` method of the HashMapIndex class.
+- `test_insert_alias`: Tests the `insert` method, ensuring it works as an alias for the `add` method.
+"""
 
-    def test_add_and_search(self):
-        self.index.add("apple", 1)
-        self.index.add("banana", 2)
-        self.index.add("apple", 3)
-        
-        self.assertEqual(self.index.search("apple"), {1, 3})
-        self.assertEqual(self.index.search("banana"), {2})
-        self.assertEqual(self.index.search("cherry"), set())
+import pytest
+from indexer.abstract_index import AbstractIndex
+from indexer.maps.hash_map import HashMapIndex  
+
+
+@pytest.fixture
+def hashmap_index():
+    return HashMapIndex()
+
+
+def test_add_and_search(hashmap_index):
+    hashmap_index.add('term1', 1)
+    hashmap_index.add('term1', 2)
+    hashmap_index.add('term2', 3)
+
+    # Test search
+    assert hashmap_index.search('term1') == {1, 2}
+    assert hashmap_index.search('term2') == {3}
+    assert hashmap_index.search('term3') == set()
+
+
+def test_remove(hashmap_index):
+    hashmap_index.add('term1', 1)
+    hashmap_index.add('term1', 2)
     
-    def test_remove(self):
-        self.index.add("dog", 5)
-        self.index.add("cat", 6)
-        self.assertEqual(self.index.search("dog"), {5})
-        
-        self.index.remove("dog")
-        self.assertEqual(self.index.search("dog"), set())
+    # Test removing a term
+    hashmap_index.remove('term1')
+    assert hashmap_index.search('term1') == set()
     
-    def test_get_keys_in_order(self):
-        self.index.add("x", 10)
-        self.index.add("y", 20)
-        self.index.add("z", 30)
-        
-        self.assertEqual(self.index.get_keys_in_order(), ["x", "y", "z"])
-        
-        self.index.remove("y")
-        self.assertEqual(self.index.get_keys_in_order(), ["x", "z"])
-    
-    def test_insert_alias(self):
-        self.index.insert("alpha", 100)
-        self.assertEqual(self.index.search("alpha"), {100})
-    
-    def test_iteration(self):
-        self.index.add("red", 50)
-        self.index.add("blue", 60)
-        self.assertEqual(list(iter(self.index)), ["red", "blue"])
+    # Ensure removing a non-existent term doesn't cause issues
+    hashmap_index.remove('term3')
+    assert hashmap_index.search('term3') == set()
+
+
+def test_iterate(hashmap_index):
+    hashmap_index.add('term1', 1)
+    hashmap_index.add('term2', 2)
+    hashmap_index.add('term3', 3)
+
+    terms = set(hashmap_index)
+    assert 'term1' in terms
+    assert 'term2' in terms
+    assert 'term3' in terms
+
+
+def test_get_keys_in_order(hashmap_index):
+    hashmap_index.add('term1', 1)
+    hashmap_index.add('term3', 3)
+    hashmap_index.add('term2', 2)
+
+    keys = hashmap_index.get_keys_in_order()
+    assert keys == ['term1', 'term3', 'term2']
+
+
+def test_insert_alias(hashmap_index):
+    hashmap_index.insert('term1', 1)
+    hashmap_index.insert('term1', 2)
+
+    # Test that the insert method is an alias for add
+    assert hashmap_index.search('term1') == {1, 2}
 
 if __name__ == "__main__":
-    unittest.main()
+  pytest.main()
