@@ -106,66 +106,72 @@ def experiment_missing_words(index_name, index, datasets, n_list):
     
     return df
 
-# Mihalis --> Potential Experiment 3 Idea: Search Time for Phrase Matching (2- and 3- word phrases)
-#       - Measure the time to search for 2- and 3- word phrases added to the search set
-#       - Evaluate the performance of searching for phrases in comparison to single tokens. Phrases
-#           may present a higher complexity for indexing structures. Measure the time it takes to find these
-#           phrases and ocmpare it with the time taken for single tokens. Search time for phrases, average search time for phrases
-#           vs. single tokens.
-
-#           Graph
-#           X = Key Number
-#           Y = Number of Articles that have that phrase
-
-def create_phrase_from_dataset(dataset, n):
-    phrase = [' '.join(dataset[word:word + n]) for word in range(len(dataset) - n + 1)]
-
-    return phrase
-
-
 
 #E3 - Finding phrases (two words) in a search dataset
 def find_phrases_in_datasets(index_name, index, datasets, n_list):
     """
     Identifies the number of documents with the exact phrase of words
     """
+    total_docs_indexed = 0
+    total_tokens_indexed = 0
+
     df = pd.DataFrame()
-    
-    for i, dataset in enumerate(datasets):  
-        phrase_with_two_w = create_phrase_from_dataset(datasets, 2)
-        phrase_with_three_w = create_phrase_from_dataset(datasets, 3)
 
-        for n, phrase in [(2, phrase_with_two_w), (3, phrase_with_three_w)]:
-            # Counter for phrases not found
-            phrase_count = 0  
-            start_time = time.time() 
 
-            for word in phrase:
-                try:
-                    phrase_result = index.search(word)
+    for i in range(len(datasets)):  
+        # Total num of documents indexed for this dataset
+        docs_indexed = 0  
+        # Total num of tokens indexed for this dataset   
+        tokens_indexed = 0   
+        
+        multiple_words = [item for item in datasets if ' ' in item]
 
-                    if phrase_result:
-                        phrase_count = phrase_count + len(phrase_result)
-                except KeyError:
-                    pass
-        
-        
-        
-            end_time = time.time()  
-            search_time = end_time - start_time 
-        
-        # Creates DataFrame for missing word count in this dataset
-        dataset_df = pd.DataFrame({
-            'indexing': [index_name],
-            'dataset': [i + 1],
-            'n': [n_list[i]],
-            'unindexed_word_count': [phrase_count],
-            'search_time (in seconds)': [search_time] 
-        })
-        
-        # Append to the main DataFrame
-        df = pd.concat([df, dataset_df], ignore_index=True)
-    
+        #Iterate through each word in the strings with multiple words
+        for phrase in multiple_words:
+            words = phrase.split()  # Split the phrase into individual words
+            for word in words:
+                print(word)
+
+        start_time = time.time() 
+
+
+
+        for word in datasets[i]:   
+            try:
+                list_of_articles = index.search(word)  
+
+                # If articles are found for the word, add to the respective counters
+                if list_of_articles:
+                    docs_indexed += len(list_of_articles) 
+                    tokens_indexed += 1  
+
+            except KeyError:
+                # If the word isn't found in the index, continue with the next word
+                pass
+
+        # Accumulate totals for all datasets 
+        total_docs_indexed += docs_indexed
+        total_tokens_indexed += tokens_indexed
+
+        end_time = time.time()  
+        search_time = end_time - start_time  
+
+        # Final dictionary for overall counts
+        overall_summary = {
+            'indexing': index_name,
+            'dataset': i+1,
+            'n': n_list[i],
+            'total_docs_indexed': total_docs_indexed,
+            'total_tokens_indexed': total_tokens_indexed,
+             'search_time (in seconds)': round(search_time, 6) 
+        }
+
+        # Convert data to a DataFrame (one row)
+        new_row = pd.DataFrame([overall_summary])
+
+        # Append the new row to the DataFrame
+        df = pd.concat([df, new_row], ignore_index=True)
+
     return df
 
 
@@ -207,14 +213,14 @@ def main():
     # pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
     # pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
 
-    pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
-    pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
-    pickle_data_ht = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\hash_index.pkl'
-    pickle_data_l = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\list_index.pkl'
+    #pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
+    #pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
+    #pickle_data_ht = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\hash_index.pkl'
+    #pickle_data_l = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\list_index.pkl'
 
     # pickle_data_bst = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/bst_index.pkl'
     # pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/avl_index.pkl'
-    # pickle_data_ht = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/hash_index.pkl'
+    pickle_data_ht = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/hash_index.pkl'
     # pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
        
 
@@ -225,8 +231,8 @@ def main():
 
 
     # data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
-    data_directory = 'C:\\Users\\lilyh\\Downloads\\experiment_data\\compiled_datasets_final.json'
-    # data_directory = '/Users/mihaliskoutouvos/Desktop/Classes/24s-ds4300-koutouvos/practical-01-index_builder/compiled_datasets_final.json'
+    #data_directory = 'C:\\Users\\lilyh\\Downloads\\experiment_data\\compiled_datasets_final.json'
+    data_directory = '/Users/mihaliskoutouvos/Desktop/Classes/24s-ds4300-koutouvos/practical-01-index_builder/compiled_datasets_final.json'
 
     # make a list of all the words from search data sets
     datasets, n_list = find_search_data_sets(data_directory)

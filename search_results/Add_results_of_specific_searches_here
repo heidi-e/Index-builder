@@ -1,43 +1,4 @@
-
 # verified and tested using each indexing structure (list, avl, bst, hash)
 northeastern : ['preproc-news_0034466.json', 'preproc-news_0002807.json', 'preproc-news_0001728.json', 'preproc-news_0056098.json', 'preproc-news_0023198.json']
 beanpot : ['preproc-news_0034466.json', 'preproc-news_0023198.json']
 husky : ['preproc-news_0034466.json', 'preproc-news_0002807.json', 'preproc-news_0001728.json', 'preproc-news_0056098.json']
-
-
-
-
-
-
-# experiment results
-[]
-[]
-[]
-[]
-path = /Users/mihaliskoutouvos/Downloads/compiled_datasets.json
-0 0
-path = /Users/mihaliskoutouvos/Downloads/compiled_datasets.json
-0 0
-path = /Users/mihaliskoutouvos/Downloads/compiled_datasets.json
-0 0
-path = /Users/mihaliskoutouvos/Downloads/compiled_datasets.json
-0 0
-Function loopy_loop() {} Took 24382000 ns OR 24.382 ms
-E1 Experiments
-0 0
-Function experiment_search_existing(<indexer.trees.bst_index.BinarySearchTreeIndex object at 0x1046396a0>, 100) {} Took 73000 ns OR 0.073 ms
-0 0
-Function experiment_search_existing(<indexer.trees.avl_tree.AVLTreeIndex object at 0x1046396d0>, 100) {} Took 52000 ns OR 0.052 ms
-0 100
-Function experiment_search_existing(<indexer.maps.hash_map.HashMapIndex object at 0x104639700>, 100) {} Took 61000 ns OR 0.061 ms
-0 100
-Function experiment_search_existing(<indexer.lists.list_index.ListIndex object at 0x104639730>, 100) {} Took 35000 ns OR 0.035 ms
-E2 Experiments
-set() 0
-Function experiment_search_non_existing(<indexer.trees.bst_index.BinarySearchTreeIndex object at 0x1046396a0>, 100) {} Took 56000 ns OR 0.056 ms
-set() 0
-Function experiment_search_non_existing(<indexer.trees.avl_tree.AVLTreeIndex object at 0x1046396d0>, 100) {} Took 45000 ns OR 0.045 ms
-set() 0
-Function experiment_search_non_existing(<indexer.maps.hash_map.HashMapIndex object at 0x104639700>, 100) {} Took 35000 ns OR 0.035 ms
-set() 0
-Function experiment_search_non_existing(<indexer.lists.list_index.ListIndex object at 0x104639730>, 100) {} Took 24000 ns OR 0.024 ms
