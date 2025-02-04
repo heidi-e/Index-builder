@@ -54,7 +54,8 @@ def experiment_searching(index_name, index, datasets, n_list, run_id, compute_pr
         total_tokens_indexed += tokens_indexed
 
         end_time = time.time()  
-        search_time = end_time - start_time  
+        search_time = end_time - start_time
+        search_time_ns = int(search_time * 1e9)
 
         # Final dictionary for overall counts
         overall_summary = {
@@ -63,7 +64,7 @@ def experiment_searching(index_name, index, datasets, n_list, run_id, compute_pr
             'n': n_list[i],
             'total_docs_indexed': total_docs_indexed,
             'total_tokens_indexed': total_tokens_indexed,
-             'search_time (in seconds)': round(search_time, 6),
+             'search_time': search_time_ns,
              'run_id': run_id,
              'compute_proc_type': compute_proc_type,
              'primary_memory_size': primary_memory_size
@@ -98,7 +99,8 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
                 unindexed_word_count += 1  
         
         end_time = time.time()  
-        search_time = end_time - start_time 
+        search_time = end_time - start_time
+        search_time_ns = int(search_time * 1e9)
         
         # Creates DataFrame for missing word count in this dataset
         dataset_df = pd.DataFrame({
@@ -106,7 +108,7 @@ def experiment_missing_words(index_name, index, datasets, n_list, run_id, comput
             'dataset': [i + 1],
             'n': [n_list[i]],
             'unindexed_word_count': [unindexed_word_count],
-            'search_time (in seconds)': [search_time],
+            'search_time': [search_time_ns],
             'run_id': run_id,
              'compute_proc_type': compute_proc_type,
              'primary_memory_size': primary_memory_size 
@@ -167,7 +169,7 @@ def find_phrases_in_datasets(index_name, index, datasets, n_list, run_id, comput
 
         end_time = time.time()
         search_time = end_time - start_time
-
+        search_time_ns = int(search_time * 1e9)
 
 
         # Final dictionary for overall counts
@@ -177,7 +179,7 @@ def find_phrases_in_datasets(index_name, index, datasets, n_list, run_id, comput
             'n': n_list[i],
             'total_docs_indexed': total_docs_indexed,
             'total_tokens_indexed': total_tokens_indexed,
-             'search_time (in seconds)': round(search_time, 6),
+             'search_time': search_time_ns,
             'run_id': run_id,
              'compute_proc_type': compute_proc_type,
              'primary_memory_size': primary_memory_size
