@@ -113,19 +113,19 @@ def main():
 
     # set desired indexing structure
     #avl_tree = AVLTreeIndex()
-    list_index = ListIndex()
+    #list_index = ListIndex()
     #hash_map = HashMapIndex()
-    #bst_index = BinarySearchTreeIndex()
+    bst_index = BinarySearchTreeIndex()
 
     start_time = time.time()
 
     # extract, parse, index metadata into pickled index
-    index_files(list_index, args.dataset, args.pickle)
+    index_files(bst_index, args.dataset, args.pickle)
 
     end_time = time.time()
     print(f"Total indexing time: {end_time - start_time:.2f} seconds")
 
-    #specify_dataset(list_index)
+    specify_dataset(bst_index)
 
     # test by loading and printing pickled data
     #index = load_index(args.pickle)
