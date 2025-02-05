@@ -1,4 +1,3 @@
 nltk
-pytest
 pandas
 openpyxl
