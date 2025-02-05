@@ -13,7 +13,7 @@ The following tests are included:
 """
 
 import pytest
-from indexer.trees.avl_index import AVLTreeIndex
+from indexer.trees.avl_tree import AVLTreeIndex
 from indexer.trees.avl_node import AVLNode
 
 
