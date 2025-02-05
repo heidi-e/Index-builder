@@ -75,7 +75,8 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
   
   - To create the search data sets and save into a json file, run the script from the command line. 
     - `python -m indexer.util.search_data_set`
+
+  - To run the experiments and save the results into a csv or Excel file, run the script from the command line. Make sure to set the correct root directories for the pickled indexes and search datasets.
+    - `python -m indexer.util.exp`
     
 - Each of the data structures inherit from a common interface of functionality in `indexer.abstract_index.AbstractIndex`.
-
-- To run our experiments, type the follow `python -m indexer.util.exp `
