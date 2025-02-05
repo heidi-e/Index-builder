@@ -237,20 +237,20 @@ def load_index(file_path):
 
 def main():
 
-    #pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
-    #pickle_data_avl = '/Users/Heidi/Downloads/final_pickles/avl_index.pkl'
-    #pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
-    #pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
+    pickle_data_bst = '/Users/Heidi/Downloads/final_pickles/bst_index.pkl'
+    pickle_data_avl = '/Users/Heidi/Downloads/final_pickles/avl_index.pkl'
+    pickle_data_ht = '/Users/Heidi/Downloads/final_pickles/hash_index.pkl'
+    pickle_data_l = '/Users/Heidi/Downloads/final_pickles/list_index.pkl'
 
-    #pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
-    #pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
-    #pickle_data_ht = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\hash_index.pkl'
-    #pickle_data_l = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\list_index.pkl'
+    # pickle_data_bst = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\bst_index.pkl'
+    # pickle_data_avl = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\avl_index.pkl'
+    # pickle_data_ht = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\hash_index.pkl'
+    # pickle_data_l = 'C:\\Users\\lilyh\\Downloads\\final_pickles_results\\final_pickles\\list_index.pkl'
 
-    pickle_data_bst = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/bst_index.pkl'
-    pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/avl_index.pkl'
-    pickle_data_ht = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/hash_index.pkl'
-    pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
+    # pickle_data_bst = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/bst_index.pkl'
+    # pickle_data_avl = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/avl_index.pkl'
+    # pickle_data_ht = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/hash_index.pkl'
+    # pickle_data_l = '/Users/mihaliskoutouvos/Downloads/final_pickles 3/list_index.pkl'
 
 
     bst_index = load_index(pickle_data_bst)
@@ -259,9 +259,9 @@ def main():
     list_index = load_index(pickle_data_l)
 
 
-    #data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
-    #data_directory = 'C:\\Users\\lilyh\\Downloads\\experiment_data\\compiled_datasets_final.json'
-    data_directory = '/Users/mihaliskoutouvos/Desktop/Classes/24s-ds4300-koutouvos/practical-01-index_builder/compiled_datasets_final.json'
+    data_directory = '/Users/Heidi/Downloads/compiled_datasets_final.json'
+    # data_directory = 'C:\\Users\\lilyh\\Downloads\\experiment_data\\compiled_datasets_final.json'
+    # data_directory = '/Users/mihaliskoutouvos/Desktop/Classes/24s-ds4300-koutouvos/practical-01-index_builder/compiled_datasets_final.json'
 
     # make a list of all the words from search data sets
     datasets, n_list = find_search_data_sets(data_directory)
@@ -283,54 +283,22 @@ def main():
 
     exp_2_df_combined = pd.concat([df1_2, df2_2, df3_2, df4_2], axis=0)
 
-
     print("E3 Experiments")
     df1_3 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'M2', 16)
     df2_3 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'M2', 16)
     df3_3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'M2', 16)
     df4_3 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'M2', 16)
+    
     exp_3_df_combined = pd.concat([df1_3, df2_3, df3_3, df4_3], axis=0)
 
 
     print('Created dataframes for all indexing structures.')
-
-
     print('Concat everything...')
+
     final_df_combined = pd.concat([exp_1_df_combined, exp_2_df_combined, exp_3_df_combined], axis=0)
     final_df_combined.to_excel('timing_data.xlsx', index=False, sheet_name='sheet1')
     final_df_combined.to_csv('timing_data.csv', index=False)
 
-
-
-
-    # df1 = experiment_missing_words('list', list_index, datasets, n_list, 3, 'Intel i5', 16)
-    # df2 = experiment_missing_words('hash', hash_index, datasets, n_list, 3, 'Intel i5', 16)
-    # df3 = experiment_missing_words('avl', avl_index, datasets, n_list, 3, 'Intel i5', 16)
-    # df4 = experiment_missing_words('bst', bst_index, datasets, n_list, 3, 'Intel i5', 16)
-
-    # df1 = find_phrases_in_datasets('list', list_index, datasets, n_list)
-    # df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list)
-    # df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list)
-    # df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list)
-
-#     df1 = find_phrases_in_datasets('list', list_index, datasets, n_list, 3, 'Intel i5', 16)
-#     df2 = find_phrases_in_datasets('hash', hash_index, datasets, n_list, 3, 'Intel i5', 16)
-#     df3 = find_phrases_in_datasets('avl', avl_index, datasets, n_list, 3, 'Intel i5', 16)
-#     df4 = find_phrases_in_datasets('bst', bst_index, datasets, n_list, 3, 'Intel i5', 16)
-# #
-#     # print(df2)
-#     df_combined = pd.concat([df1, df2, df3, df4], axis=0)
-#     df_combined.to_excel('output_exp3.xlsx', index=False, sheet_name='sheet1')
-
-
-    # Read the Excel files into dataframes
-    #df1 = pd.read_excel('indexer/util/data/output_exp1.xlsx')
-    #df2 = pd.read_excel('indexer/util/data/output_exp2.xlsx')
-    #df3 = pd.read_excel('indexer/util/data/output_exp3.xlsx')
-
-    #combined_df = pd.concat([df1, df2, df3], ignore_index=True)
-
-    #combined_df.to_excel('lily_merged_experiments.xlsx', index=False)
 
 if __name__ == "__main__":
     main()
