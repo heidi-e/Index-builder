@@ -54,7 +54,7 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
    - title
    - source URL's domain name (cnn.com, reuters.com, etc.)
    - author's last name if present
-5. We proceeded to generate 8 searching data sets of varying sizes, each with the following components:
+5. We proceeded to generate 8 [searching data sets](https://github.com/user-attachments/files/18636051/compiled_datasets.json) of varying sizes, each with the following components:
    - **Component A**: a random sample of _n_ terms/tokens currently in the index (n should be a multiple of 4 and >= 4000),
    - **Component B**: an additional _(n/4)_ 2- and 3-word phrases added to the search set by randomly selecting 2 or 3 tokens from Component A and adding them to the searching data set,
    - **Component C**: an addition of _n_ randomly generated strings of characters that are unlikely to be in the index, and
@@ -66,7 +66,7 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
 - File Storage/Locations:
   
   - None of our datasets are in our repo for the sake of saving storage and time. Instead, we stored our indexed one in a pickle file for use in the experiments. 
-  - Our pickle files are also not in the repo for similar reason ([Download Zip File](https://drive.google.com/uc?export=download&id=1k8zua3W_LVEDGBLF-HjJ2N8ALh9_QuDG)). They are stored locally and called through the local path containing the root folder of the [datasets](https://github.com/user-attachments/files/18636051/compiled_datasets.json). You should convert this to a command line argument that can be passed in when running the program.
+  - Our pickle files are also not in the repo for similar reason ([Download Zip File](https://drive.google.com/uc?export=download&id=1k8zua3W_LVEDGBLF-HjJ2N8ALh9_QuDG)). They are stored locally and called through the local path containing the root folder of the pickled indexes. You should convert this to a command line argument that can be passed in when running the program.
     - For example: `-d` or `--dataset` 
   - We also pickled our indexes, so we have a separate command line argument for the path to save the pickle files.
     - For example: `-p` or `--pickle` 
