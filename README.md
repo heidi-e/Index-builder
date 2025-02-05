@@ -66,7 +66,7 @@ The input corpus is based on the [US Financial News Articles](https://www.kaggle
 - File Storage/Locations:
   
   - None of our datasets are in our repo for the sake of saving storage and time. Instead, we stored our indexed one in a pickle file for use in the experiments. 
-  - Our pickle files are also not in the repo for similar reason ([Download Zip File](https://drive.google.com/uc?export=download&id=1k8zua3W_LVEDGBLF-HjJ2N8ALh9_QuDG)). They are stored locally and called through the local path containing the root folder of new articles files dataset (USFinancialNewsArticles-preprocessed). You should convert this to a command line argument that can be passed in when running the program.
+  - Our pickle files are also not in the repo for similar reason ([Download Zip File](https://drive.google.com/uc?export=download&id=1k8zua3W_LVEDGBLF-HjJ2N8ALh9_QuDG)). They are stored locally and called through the local path containing the root folder of the new articles files dataset (USFinancialNewsArticles-preprocessed). You should convert this to a command line argument that can be passed in when running the program.
     - For example: `-d` or `--dataset` 
   - We also pickled our indexes, so we have a separate command line argument for the path to save the pickle files.
     - For example: `-p` or `--pickle` 
